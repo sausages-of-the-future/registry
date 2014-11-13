@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+  <div class="row">
+    <div class="small-12 columns">
+      <h1>Registry catalogue</h1>
+       {% if registries %}
+        {% for registry in registries %}
+          <ul>
+            <li>
+              <h3>{{registry.name}}</h3>
+              <p>
+                {% if registry.description %}
+                  {{registry.description}}
+                {% else %}
+                  No description
+                {% endif %}
+              </p>
+              <h4>Properties:</h4>
+              <ul>
+                {% if registry.properties %}
+                  {% for property in registry.properties %}
+                    <li>{{property}}</li>
+                  {% endfor %}
+                {% else %}
+                  <li>No properties</li>
+                {% endif %}
+              </ul>
+            </li>
+          </ul>
+        {% endfor %}
+      {% else %}
+        <p>There are no registries.</p>
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}

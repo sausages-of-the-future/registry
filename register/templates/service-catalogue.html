@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block content %}
+  <div class="row">
+    <div class="small-12 columns">
+      <h1>Services catalogue</h1>
+       {% if clients %}
+        {% for client in clients %}
+          <ul>
+            <li>
+              <h3>{{client.name}}</h3>
+              <p>{{client.description}}</p>
+              <h4>Permissions:</h4>
+              <ul>
+                {% if client.default_scopes %}
+                  {% for scope in client.default_scopes %}
+                    <li>{{scope}}</li>
+                  {% endfor %}
+                {% else %}
+                  <li>No permissions</li>
+                {% endif %}
+              </ul>
+            </li>
+          </ul>
+        {% endfor %}
+      {% else %}
+        <p>There are no registered services.</p>
+      {% endif %}
+      <h2>History</h2>
+      {% if log %}
+        <table>
+          <tr>
+            <th>Description</th>
+            <th>Date</th>
+          </tr>
+          {% for item in log %}
+            <tr>
+             <td><strong>{{item.client.name}}</strong> {{item.action}}</td>   
+             <td>{{item.occured_at}}</td>   
+            </tr>
+          {% endfor %}
+        </table>
+      {% else %}
+        <p>There is no history to show</p>
+      {% endif %}
+    {% endblock %}    
+    </div>
+  </div>

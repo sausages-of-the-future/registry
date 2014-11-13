@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+  <div class="row">
+    <div class="small-12 columns">
+      <h1>Hello.</h1>
+      <a href="{{url_for('admin_logout')}}" class="button expand">Sign out</a>
+      <a href="{{url_for('authorized')}}" class="button expand">Authorized apps</a>
+      <a href="{{url_for('service_catalogue')}}" class="button expand">Catalogue of services</a>
+      <a href="{{url_for('registry_catalogue')}}" class="button expand">Catalogue of registries</a>
+      <a href="{{url_for('export')}}" class="button expand">Export your data</a>
+      <a href="{{url_for('history')}}" class="button expand">History</a>
+    </div>
+  </div>
+{% endblock %}
