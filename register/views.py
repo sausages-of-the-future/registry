@@ -1,28 +1,29 @@
 from flask import render_template, request, redirect, url_for, session
-from register import app, oauth
+from register import app, oauth, login_manager
 import models
 from models import AuthClient, AuthToken, AuthUser
 from mongoengine import DoesNotExist
 import auth
 from decorators import admin_login_required
 import forms
+from flask.ext.login import login_required, login_user, logout_user, current_user
 
 @app.route('/')
-@admin_login_required
+@login_required
 def hello():
     return render_template('index.html')
 
 @app.route('/signin', methods=['GET', 'POST'])
-def admin_login():
+def login():
     form = forms.LoginForm(request.form)
     failed = False
     if request.method == 'POST' and form.validate():
         user = AuthUser.validate_user(form.data['email'], form.data['password'])
         if user:
-            session['user_id'] = str(user.id)
+            login_user(user)
             if request.args.get('next', False):
                 return redirect(request.args['next'])
-            else:    
+            else:
                 return redirect(url_for('hello'))
         else:
             failed = True
@@ -30,12 +31,12 @@ def admin_login():
     return render_template('login.html', form=form, failed=failed)
 
 @app.route('/export')
-@admin_login_required
+@login_required
 def export():
     return render_template('export.html')
 
 @app.route('/history')
-@admin_login_required
+@login_required
 def history():
     user = models.AuthUser.objects.get(id=session['user_id'])
     log = models.AuthUserLog.objects(user=user)
@@ -59,12 +60,12 @@ def registry_catalogue():
     return render_template('registry-catalogue.html', registries=registries)
 
 @app.route('/signout')
-def admin_logout():
-    session.clear()
+def logout():
+    logout_user()
     return redirect(url_for('hello'))
 
 @app.route('/oauth', methods=['GET', 'POST'])
-@admin_login_required
+@login_required
 def authorized():
     if request.method == 'POST':
         token = AuthToken.objects.get(id=request.form['revoke'])
@@ -81,12 +82,12 @@ def access_token():
 
 @app.route('/oauth/authorize', methods=['GET', 'POST'])
 @oauth.authorize_handler
-@admin_login_required
+@login_required
 def authorize(*args, **kwargs):
     if request.method == 'GET':
         client = AuthClient.objects.get(client_id=request.args.get('client_id'))
         kwargs['client'] = client
-        return render_template('authorize.html', avaliable_scopes=auth.scopes, **kwargs)
+        return render_template('authorize.html', avaliable_scopes=models.avaliable_scopes, **kwargs)
 
     confirm = request.form.get('confirm', 'no')
     return confirm == 'yes'

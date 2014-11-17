@@ -6,6 +6,9 @@ TODO:
 * feed of changes to services registry
 * feed of personal history
 * OAUTHLIB_INSECURE_TRANSPORT should not be hard coded
+* Show user and non user access
+* show tests running over the registries
+
 
 DONE:
 

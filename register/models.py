@@ -10,14 +10,32 @@ import hashlib
 from mongoengine import signals
 import uuid
 
-avaliable_scopes = {'person:view': 'Permission to person ID and date of birth',}
+avaliable_scopes = {'person:view': 'Permission to person ID and date of birth', 'personal_licence:view': 'View licences you hold', 'personal_licence:add': 'Issue a licence to you'}
 
 #Auth stuff
 class AuthUser(Document):
 
     email = StringField(max_length=100, required=True, unique=True)
     password = StringField(max_length=100, required=True)
+    active = BooleanField(default=True)
     person_uri = URLField()
+
+    def is_active(self):
+        #method required for flask-login
+        return self.active 
+
+    def get_id(self):
+        #method required for flask-login
+        return str(self.id)
+
+    def is_anonymous(self):
+        #method required for flask-login
+        # might need to use this for accessing public data?
+        return False
+
+    def is_authenticated(self):
+        #method required for flask-login
+        return True
 
     @staticmethod
     def create_user(email, password):
@@ -53,13 +71,14 @@ class AuthClient(Document):
         client.description = description
         client.client_id = uuid.uuid4().hex
         client.client_secret = uuid.uuid4().hex
-        client._default_scopes = ",".join(scopes)
+        client._default_scopes = " ".join(scopes)
         client._redirect_uris = redirect_uri
         client.save()
         return client
 
     @property
     def client_type(self):
+
         if self.is_confidential:
             return 'confidential'
         return 'public'
@@ -115,15 +134,12 @@ class AuthGrant(Document):
 
 class AuthToken(Document):
     client = ReferenceField(AuthClient)
+    user = ReferenceField(AuthUser)
     token_type = StringField()
     access_token = StringField(unique=True)
     refresh_token = StringField()
     expires = DateTimeField()
     _scopes = StringField()
-
-    @property
-    def user(self):
-        return None
 
     @property
     def scopes(self):
@@ -156,9 +172,30 @@ class Person(DynamicDocument):
         return "%s/people/%s" % (app.config['BASE_URL'], str(self.id))
 
     def to_dict(self):
-        return {'id': str(self.id), 'born_at': self.occured_at.isoformat()}
+        return {'born_at': self.born_at.isoformat()}
 
+class PersonalLicence(DynamicDocument):
+    """
+    A list of licences that have been issued to people
+    """
+    person_uri = URLField(required=True)
+    licence_type_uri = URLField(required=True)
+    starts_at = DateTimeField(required=True)
+    ends_at = DateTimeField(required=True)
 
-registry_classes = [Person,]
+    @property
+    def uri(self):
+        return "%s/personal-licence/%s" % (app.config['BASE_URL'], str(self.id))
+
+    def to_dict(self):
+        return {
+                'uri': self.uri,
+                'person_uri': self.person_uri,
+                'licence_type_uri': self.licence_type_uri,
+                'starts_at': self.starts_at.isoformat(),
+                'ends_at': self.ends_at.isoformat()
+                }
+
+registry_classes = [Person, PersonalLicence, PersonalLicence]
 
 signals.post_save.connect(AuthClient.post_save, sender=AuthClient)

@@ -3,8 +3,6 @@ import sys
 
 port = int(os.environ.get('PORT', 5000))
 
-#pre flight checks
-
 # check for settings file
 if not os.path.isfile('local_config.py'):
     sys.exit("Local config file not found. Run manage.py setup to create one.")
@@ -19,5 +17,6 @@ except ConnectionError:
 
 if __name__ == '__main__':
     os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = 'true'
+    os.environ['DEBUG'] = 'true'
     from register import app
     app.run(host='0.0.0.0', port=port)

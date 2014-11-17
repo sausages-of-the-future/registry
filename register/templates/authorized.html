@@ -15,7 +15,7 @@
             </thead>
             {% for token in tokens %}
               <tr>
-                <td>{{token.client.client_id}}</td>
+                <td>{{token.client.name}}</td>
                 <td>
                   <ul>
                     {% for scope in token.scopes %}
