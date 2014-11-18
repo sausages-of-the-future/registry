@@ -24,8 +24,8 @@ class About(Resource):
         pass
 
     @oauth.require_oauth()
-    def get(oauth, self):
-        return {'person': oauth.user.person_uri}
+    def get(self):
+        return {'person': request.oauth.user.person_uri}
 
 class Person(Resource):
 
@@ -39,9 +39,9 @@ class Person(Resource):
         return "Forbidden", 403
 
     @oauth.require_oauth('person:view')
-    def get(oauth, self, _id):
+    def get(self, _id):
         person = mongo_get_or_abort(_id, models.Person)
-        if person.uri == oauth.user.person_uri:
+        if person.uri == request.oauth.user.person_uri:
             return person.to_dict(), 200
         else:
             return 'Unauthorized', 401
@@ -69,12 +69,13 @@ class PersonalLicence(Resource):
         pass
 
     @oauth.require_oauth()
-    def get(oauth, self, _id):
+    def get(self, _id):
         valid_view_scope, req = oauth.verify_request(['personal_licence:view'])
         if valid_view_scope:
-            personal_licence = mongo_get_or_abort(_id, models.PersonalLicence).to_dict()
+            personal_licence = mongo_get_or_abort(_id, models.PersonalLicence)
             #if belongs to use token, then we can return more info
-            if persoanl_licence.person_uri == oauth.user.person_uri:
+            #todo: return different data for each of these states
+            if personal_licence.person_uri == request.oauth.user.person_uri:
                 return personal_licence.to_dict()
             else:
                 return responal_licence.to_dict()
@@ -92,16 +93,15 @@ class PersonalLicenceList(Resource):
         pass
 
     @oauth.require_oauth('personal_licence:view')
-    def get(oauth, self):
+    def get(self):
         result = []
-        personal_licences = models.PersonalLicence.objects(person_uri=oauth.user.person_uri)
+        personal_licences = models.PersonalLicence.objects(person_uri=request.oauth.user.person_uri)
         for personal_licence in personal_licences:
             result.append(personal_licence.to_dict())
-        print json.dumps(result)
         return result
 
     @oauth.require_oauth('personal_licence:add')
-    def post(oauth, self):
+    def post(self):
 
         #this would be gov only, for a particular user
         self.parser.add_argument('licence_type_uri', type=inputs.url, required=True, location='json', help="Must be a valid URI")
@@ -110,7 +110,7 @@ class PersonalLicenceList(Resource):
         args = self.parser.parse_args()
 
         personal_licence = models.PersonalLicence()
-        personal_licence.person_uri = oauth.user.person_uri
+        personal_licence.person_uri = request.oauth.user.person_uri
         personal_licence.licence_type_uri = args['licence_type_uri']
         personal_licence.starts_at = args['starts_at']
         personal_licence.ends_at = args['ends_at']
