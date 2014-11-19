@@ -1,6 +1,6 @@
 from flask.ext.script import Manager, Command, prompt_bool, prompt, prompt_pass, prompt_choices
 from mongoengine import connect
-from register import app, registers, auth
+from registry import app, registers, auth
 from datetime import datetime
 
 class RegisterService(Command):
