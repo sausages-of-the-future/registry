@@ -1,16 +1,16 @@
 from flask import render_template, request, redirect, url_for, session
 from register import app, oauth, login_manager
 import models
-from models import AuthClient, AuthToken, AuthUser
-from mongoengine import DoesNotExist
 import auth
+from auth import AuthClient, AuthToken, AuthUser
+from mongoengine import DoesNotExist
 from decorators import admin_login_required
 import forms
 from flask.ext.login import login_required, login_user, logout_user, current_user
 
 @app.route('/')
 @login_required
-def hello():
+def index():
     return render_template('index.html')
 
 @app.route('/signin', methods=['GET', 'POST'])
@@ -38,14 +38,14 @@ def export():
 @app.route('/history')
 @login_required
 def history():
-    user = models.AuthUser.objects.get(id=session['user_id'])
-    log = models.AuthUserLog.objects(user=user)
+    user = auth.AuthUser.objects.get(id=session['user_id'])
+    log = auth.AuthUserLog.objects(user=user)
     return render_template('history.html', log=log)
 
 @app.route('/service-catalogue')
 def service_catalogue():
-    log = models.AuthClientLog.objects.all()
-    clients = models.AuthClient.objects.all()
+    log = auth.AuthClientLog.objects.all()
+    clients = auth.AuthClient.objects.all()
     return render_template('service-catalogue.html', clients=clients, log=log)
 
 @app.route('/registry-catalogue')

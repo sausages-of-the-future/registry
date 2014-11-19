@@ -7,7 +7,7 @@ import inspect
 from flask import make_response, request
 from flask.ext.restful import reqparse, abort, Api, Resource, inputs
 from mongoengine import DoesNotExist, ValidationError
-from register import api, models, app, oauth
+from register import api, registers, app, oauth
 from flask_restful.utils import cors
 
 def mongo_get_or_abort(_id, cls):
@@ -40,7 +40,7 @@ class Person(Resource):
 
     @oauth.require_oauth('person:view')
     def get(self, _id):
-        person = mongo_get_or_abort(_id, models.Person)
+        person = mongo_get_or_abort(_id, registers.Person)
         if person.uri == request.oauth.user.person_uri:
             return person.to_dict(), 200
         else:
@@ -72,7 +72,7 @@ class PersonalLicence(Resource):
     def get(self, _id):
         valid_view_scope, req = oauth.verify_request(['personal_licence:view'])
         if valid_view_scope:
-            personal_licence = mongo_get_or_abort(_id, models.PersonalLicence)
+            personal_licence = mongo_get_or_abort(_id, registers.PersonalLicence)
             #if belongs to use token, then we can return more info
             #todo: return different data for each of these states
             if personal_licence.person_uri == request.oauth.user.person_uri:
@@ -80,7 +80,7 @@ class PersonalLicence(Resource):
             else:
                 return responal_licence.to_dict()
         else:
-            return mongo_get_or_abort(_id, models.PersonalLicence).to_dict()
+            return mongo_get_or_abort(_id, registers.PersonalLicence).to_dict()
 
 
 class PersonalLicenceList(Resource):
@@ -95,7 +95,7 @@ class PersonalLicenceList(Resource):
     @oauth.require_oauth('personal_licence:view')
     def get(self):
         result = []
-        personal_licences = models.PersonalLicence.objects(person_uri=request.oauth.user.person_uri)
+        personal_licences = registers.PersonalLicence.objects(person_uri=request.oauth.user.person_uri)
         for personal_licence in personal_licences:
             result.append(personal_licence.to_dict())
         return result
@@ -109,7 +109,7 @@ class PersonalLicenceList(Resource):
         self.parser.add_argument('ends_at', type=inputs.date, required=True, location='json', help="Must be a valid date eg ISO 2013-01-01")
         args = self.parser.parse_args()
 
-        personal_licence = models.PersonalLicence()
+        personal_licence = registers.PersonalLicence()
         personal_licence.person_uri = request.oauth.user.person_uri
         personal_licence.licence_type_uri = args['licence_type_uri']
         personal_licence.starts_at = args['starts_at']

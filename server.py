@@ -5,7 +5,7 @@ port = int(os.environ.get('PORT', 5000))
 
 # check for settings file
 if not os.path.isfile('local_config.py'):
-    sys.exit("Local config file not found. Run manage.py setup to create one.")
+    sys.exit("Local config file not found. Do cp local_config.py.git local_config.py")
 
 # check for mongo
 from mongoengine import connect, ConnectionError
