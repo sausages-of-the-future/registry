@@ -5,6 +5,7 @@ class Config(object):
     SECRET_KEY = os.environ['SECRET_KEY']
     ACCESS_CONTROL_ALLOW_ORIGIN = '*'
     OAUTH2_PROVIDER_TOKEN_EXPIRES_IN = 7776000
+    MONGODB_SETTINGS = {'DB': "betagov-registers"}
 
 class DevelopmentConfig(Config):
     DEBUG = True
