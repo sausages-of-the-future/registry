@@ -24,6 +24,22 @@ class Person(RegisterBase):
     def to_dict(self):
         return {'born_at': self.born_at.isoformat()}
 
+class Organisation(RegisterBase):
+    """
+    A list of organsiations
+    """
+    name = StringField(required=True)
+    organsiation_type_uri = URLField(required=True)
+    created_at = DateTimeField()
+
+    @property
+    def uri(self):
+        return "%s/people/%s" % (app.config['BASE_URL'], str(self.id))
+
+    def to_dict(self):
+        return {'born_at': self.born_at.isoformat()}
+
+
 class PersonalLicence(RegisterBase):
     """
     A list of licences that have been issued to people
@@ -46,5 +62,5 @@ class PersonalLicence(RegisterBase):
                 'ends_at': self.ends_at.isoformat()
                 }
 
-registry_classes = [Person, PersonalLicence, PersonalLicence]
+registry_classes = [Person, PersonalLicence, Organisation]
 
