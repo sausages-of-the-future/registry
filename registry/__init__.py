@@ -11,6 +11,11 @@ from flask_login import LoginManager
 app = Flask(__name__)
 app.config.from_object(os.environ.get('SETTINGS'))
 
+#temp
+#app.config['MONGODB_SETTINGS'] = {'DB': "betagov-registers"}
+#app.config['SECRET_KEY'] = "fdsfdsfdsfdsfdsfds"
+#app.config['BASE_URL'] = "http://registry.gov.local"
+
 #database
 db = MongoEngine(app)
 
