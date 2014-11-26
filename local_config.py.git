@@ -1,5 +1,0 @@
-DEBUG = True
-MONGODB_SETTINGS = {'DB': "betagov-registers"}
-SECRET_KEY = 'fdnjksfnbdsnfjdsknfjkds'
-ACCESS_CONTROL_ALLOW_ORIGIN = '*'
-OAUTH2_PROVIDER_TOKEN_EXPIRES_IN = 7776000

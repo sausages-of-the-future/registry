@@ -1,7 +1,12 @@
 from registry import app
 from mongoengine import StringField, DateTimeField, DictField, Document, BooleanField, URLField
 
-avaliable_scopes = {'person:view': 'Permission to person ID and date of birth', 'personal_licence:view': 'View licences you hold', 'personal_licence:add': 'Issue a licence to you'}
+avaliable_scopes = {
+    'person:view': 'Permission to person ID and date of birth',
+    'personal_licence:view': 'View licences you hold',
+    'personal_licence:add': 'Issue a licence to you',
+    'organisation:add': 'Create an organisation'
+    }
 
 class  RegisterBase(Document):
     meta = {'allow_inheritance': True}
@@ -29,7 +34,7 @@ class Organisation(RegisterBase):
     A list of organsiations
     """
     name = StringField(required=True)
-    organsiation_type_uri = URLField(required=True)
+    type_uri = URLField(required=True)
     created_at = DateTimeField()
 
     @property

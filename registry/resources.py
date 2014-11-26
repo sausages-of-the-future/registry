@@ -115,9 +115,45 @@ class PersonalLicenceList(Resource):
             return "Failed", 500
         return personal_licence.uri, 201
 
+class OrganisationList(Resource):
+
+    def __init__(self):
+        self.parser = reqparse.RequestParser()
+        super(OrganisationList, self).__init__()
+
+    def options(self):
+        pass
+
+    def get(self):
+        result = []
+        organisations = registers.Organisation.objects(person_uri=request.oauth.user.person_uri)
+        for organisation in organisations:
+            result.append(organisation.to_dict())
+        return result
+
+    @oauth.require_oauth('organisation:add')
+    def post(self):
+
+        #this would be gov only, for a particular user
+        self.parser.add_argument('type_uri', type=inputs.url, required=True, location='json', help="Must be a valid URI")
+        self.parser.add_argument('name', required=True, location='json', help="An organisaiton must have a name")
+        args = self.parser.parse_args()
+
+        organisation = registers.Organisation()
+        organisation.name = args['name']
+        organisation.type_uri = args['type_uri']
+
+        try:
+            organisation.save()
+        except ValidationError, e:
+            return "Failed", 500
+        return organisation.uri, 201
+
+
 #routes
 api.add_resource(About, '/about')
-api.add_resource(PersonList, '/people')
 api.add_resource(Person, '/people/<string:_id>')
-api.add_resource(PersonalLicenceList, '/personal-licences')
+api.add_resource(PersonList, '/people')
 api.add_resource(PersonalLicence, '/personal-licences/<string:_id>')
+api.add_resource(PersonalLicenceList, '/personal-licences')
+api.add_resource(OrganisationList, '/organisations')
