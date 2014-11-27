@@ -57,63 +57,63 @@ class PersonList(Resource):
         #this would be gov only
         return "Not Implemented", 501
 
-class PersonalLicence(Resource):
+class Licence(Resource):
 
     def options(self):
         pass
 
     @oauth.require_oauth()
     def get(self, _id):
-        valid_view_scope, req = oauth.verify_request(['personal_licence:view'])
+        valid_view_scope, req = oauth.verify_request(['licence:view'])
         if valid_view_scope:
-            personal_licence = mongo_get_or_abort(_id, registers.PersonalLicence)
+            licence = mongo_get_or_abort(_id, registers.Licence)
             #if belongs to use token, then we can return more info
             #todo: return different data for each of these states
-            if personal_licence.person_uri == request.oauth.user.person_uri:
-                return personal_licence.to_dict()
+            if licence.person_uri == request.oauth.user.person_uri:
+                return licence.to_dict()
             else:
-                return responal_licence.to_dict()
+                return licence.to_dict()
         else:
-            return mongo_get_or_abort(_id, registers.PersonalLicence).to_dict()
+            return mongo_get_or_abort(_id, registers.Licence).to_dict()
 
 
-class PersonalLicenceList(Resource):
+class LicenceList(Resource):
 
     def __init__(self):
         self.parser = reqparse.RequestParser()
-        super(PersonalLicenceList, self).__init__()
+        super(LicenceList, self).__init__()
 
     def options(self):
         pass
 
-    @oauth.require_oauth('personal_licence:view')
+    @oauth.require_oauth('licence:view')
     def get(self):
         result = []
-        personal_licences = registers.PersonalLicence.objects(person_uri=request.oauth.user.person_uri)
-        for personal_licence in personal_licences:
-            result.append(personal_licence.to_dict())
+        licences = registers.Licence.objects(person_uri=request.oauth.user.person_uri)
+        for licence in licences:
+            result.append(licence.to_dict())
         return result
 
-    @oauth.require_oauth('personal_licence:add')
+    @oauth.require_oauth('licence:add')
     def post(self):
 
         #this would be gov only, for a particular user
-        self.parser.add_argument('licence_type_uri', type=inputs.url, required=True, location='json', help="Must be a valid URI")
+        self.parser.add_argument('type_uri', type=inputs.url, required=True, location='json', help="Must be a valid URI")
         self.parser.add_argument('starts_at', type=inputs.date, required=True, location='json', help="Must be a valid date eg ISO 2013-01-01")
         self.parser.add_argument('ends_at', type=inputs.date, required=True, location='json', help="Must be a valid date eg ISO 2013-01-01")
         args = self.parser.parse_args()
 
-        personal_licence = registers.PersonalLicence()
-        personal_licence.person_uri = request.oauth.user.person_uri
-        personal_licence.licence_type_uri = args['licence_type_uri']
-        personal_licence.starts_at = args['starts_at']
-        personal_licence.ends_at = args['ends_at']
+        licence = registers.Licence()
+        licence.person_uri = request.oauth.user.person_uri
+        licence.type_uri = args['type_uri']
+        licence.starts_at = args['starts_at']
+        licence.ends_at = args['ends_at']
 
         try:
-            personal_licence.save()
+            licence.save()
         except ValidationError, e:
             return "Failed", 500
-        return personal_licence.uri, 201
+        return licence.uri, 201
 
 class OrganisationList(Resource):
 
@@ -154,6 +154,6 @@ class OrganisationList(Resource):
 api.add_resource(About, '/about')
 api.add_resource(Person, '/people/<string:_id>')
 api.add_resource(PersonList, '/people')
-api.add_resource(PersonalLicence, '/personal-licences/<string:_id>')
-api.add_resource(PersonalLicenceList, '/personal-licences')
+api.add_resource(Licence, '/licences/<string:_id>')
+api.add_resource(LicenceList, '/licences')
 api.add_resource(OrganisationList, '/organisations')

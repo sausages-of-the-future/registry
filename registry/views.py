@@ -49,10 +49,18 @@ def registry_catalogue():
     registries = []
     for cls in registers.registry_classes:
         properties = []
+        exclude = ('MultipleObjectsReturned', 'id', 'DoesNotExist', 'objects', 'to_dict')
         for property, value in vars(cls).iteritems():
-            if property.find('_') != 0 and property not in ('MultipleObjectsReturned', 'id', 'DoesNotExist', 'objects', 'to_dict'):
+            if property.find('_') != 0 and property not in exclude:
                 properties.append(property)
+
+        for property, value in vars(registers.RegisterBase).iteritems():
+            if property.find('_') != 0 and property not in exclude:
+                properties.append(property)
+ 
         registries.append({'name': cls.__name__, 'description': cls.__doc__, 'properties': properties})
+    
+    registries = sorted(registries, key=lambda k: k['name']) 
     return render_template('registry-catalogue.html', registries=registries)
 
 @app.route('/signout')
