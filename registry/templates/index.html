@@ -2,12 +2,26 @@
 {% block content %}
   <div class="row">
     <div class="small-12 columns">
-      <a href="{{url_for('logout')}}" class="button expand">Sign out</a>
-      <a href="{{url_for('authorized')}}" class="button expand">You</a>
-      <a href="{{url_for('service_catalogue')}}" class="button expand">Catalogue of services</a>
-      <a href="{{url_for('registry_catalogue')}}" class="button expand">Catalogue of registries</a>
-      <a href="{{url_for('export')}}" class="button expand">Export your data</a>
-      <a href="{{url_for('history')}}" class="button expand">History</a>
+      <h1>Welcome to GOV.UK data</h1>
+      <p>
+        
+      </p>
+      <ul class="side-nav">
+        <li>
+          <a href="{{url_for('registry_catalogue')}}">Registers</a>
+        </li>
+        <li>
+          <a href="{{url_for('service_catalogue')}}">Services</a>
+        </li>
+        <li>
+          <a href="{{url_for('your_data')}}">Your data</a>
+        </li>
+        <li>
+          <a href="#">Information for service developers</a>
+        </li>
+
+     </ul>
+ 
     </div>
   </div>
 {% endblock %}

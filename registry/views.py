@@ -57,9 +57,9 @@ def registry_catalogue():
         for property, value in vars(registers.RegisterBase).iteritems():
             if property.find('_') != 0 and property not in exclude:
                 properties.append(property)
- 
+
         registries.append({'name': cls.__name__, 'description': cls.__doc__, 'properties': properties})
-    
+
     registries = sorted(registries, key=lambda k: k['name']) 
     return render_template('registry-catalogue.html', registries=registries)
 
@@ -68,16 +68,20 @@ def logout():
     logout_user()
     return redirect(url_for('index'))
 
-@app.route('/oauth', methods=['GET', 'POST'])
+@app.route('/your-data', methods=['GET', 'POST'])
 @login_required
-def authorized():
+def your_data():
+
+    user = auth.AuthUser.objects.get(id=session['user_id'])
+    log = auth.AuthUserLog.objects(user=user)
+
     if request.method == 'POST':
         token = AuthToken.objects.get(id=request.form['revoke'])
         token.delete()
         #todo: delete client if no outstanding tokens
 
     tokens = AuthToken.objects()
-    return render_template('authorized.html', tokens=tokens)
+    return render_template('your-data.html', tokens=tokens, log=log)
 
 @app.route('/oauth/token', methods=['POST'])
 @oauth.token_handler

@@ -2,7 +2,12 @@
 {% block content %}
   <div class="row">
     <div class="small-12 columns">
-      <h1>Authorized apps</h1>
+      <h1>Your data</h1>
+      <p>
+        This page lists the services that have permission to access your data and 
+        the access history for your data.
+      </p>
+      <h2>Services with access</h2>
       {% if tokens %}
         <form id="form_id" action="" method="post">
           <table>
@@ -31,6 +36,25 @@
       {% else %}
         <p>There are no authorized apps.</p>
       {% endif %}
+
+      <h2>Access history</h2>
+      {% if log %}
+        <table>
+          <tr>
+            <th>Description</th>
+            <th>Date</th>
+          </tr>
+          {% for item in log %}
+            <tr>
+             <td><strong>{{item.client.name}}</strong> {{item.action}}</td>   
+             <td>{{item.occured_at}}</td>   
+            </tr>
+          {% endfor %}
+        </table>
+      {% else %}
+        <p>There is no history to show</p>
+      {% endif %}
+
     </div>
   </div>
 {% endblock %}

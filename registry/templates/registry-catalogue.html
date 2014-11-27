@@ -2,12 +2,18 @@
 {% block content %}
   <div class="row">
     <div class="small-12 columns">
-      <h1>Registry catalogue</h1>
+      <h1>Registers</h1>
+      <p>
+        This is a list of the registers that GOV.UK manages access to 
+        and the data held in each register. The list is automatically 
+        generated and <a href="#">independently audited</a> using <a href="">publically avaliable
+          tests</a>.
+      </p>
        {% if registries %}
         {% for registry in registries %}
-          <ul>
+          <ul class="info-list">
             <li>
-              <h3>{{registry.name}}</h3>
+              <h2>{{registry.name}}</h2>
               <p>
                 {% if registry.description %}
                   {{registry.description}}
