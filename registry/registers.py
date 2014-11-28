@@ -13,7 +13,7 @@ class  RegisterBase(Document):
     meta = {'allow_inheritance': True}
     _slug = ''
 
-    type_uri = URLField(required=True)
+    type_uri = URLField()
 
     @property
     def uri(self):

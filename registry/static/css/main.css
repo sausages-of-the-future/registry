@@ -66,11 +66,13 @@ ul.info-list {
 ul.info-list li {
   list-style-type: none;
   border-bottom:solid 1px #333;
+  padding-bottom:1rem;
 }
 
 ul.info-list li li {
   border-bottom:none;
   list-style-type:circle;
+  padding-bottom: 0;
 }
 
 /* Secondary nav */

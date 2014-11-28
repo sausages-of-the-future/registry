@@ -3,9 +3,14 @@
   <div class="row">
     <div class="small-12 columns">
       <h1>Services catalogue</h1>
+      <p>
+        This is a list of services that have permission to access
+        the registers and their  history.
+      </p>
+      <h2>Services</h2>
        {% if clients %}
         {% for client in clients %}
-          <ul>
+          <ul class="info-list">
             <li>
               <h3>{{client.name}}</h3>
               <p>{{client.description}}</p>
