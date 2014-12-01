@@ -6,7 +6,8 @@ class Config(object):
     BASE_URL = os.environ['BASE_URL']
     ACCESS_CONTROL_ALLOW_ORIGIN = '*'
     OAUTH2_PROVIDER_TOKEN_EXPIRES_IN = 7776000
-    MONGODB_SETTINGS = {'DB': "betagov-registers"}
+    MONGODB_DB = os.environ['MONGODB_DB']
+    MONGODB_HOST = os.environ['MONGODB_HOST']
 
 class DevelopmentConfig(Config):
     DEBUG = True
