@@ -5,7 +5,7 @@ from datetime import datetime
 
 class RegisterService(Command):
     """
-    Register a new service, returns a client ID and a client secret 
+    Register a new service, returns a client ID and a client secret
     that you need to copy into the client app
     """
     def run(self):
@@ -28,8 +28,8 @@ class ResetAll(Command):
     """
     def run(self):
         if prompt_bool('Reset everything?'):
-            db = connect(app.config['MONGODB_SETTINGS']['DB'])
-            db.drop_database(app.config['MONGODB_SETTINGS']['DB'])
+            db = connect(app.config['MONGODB_DB'])
+            db.drop_database(app.config['MONGODB_DB'])
 
 class CreateUser(Command):
     """
