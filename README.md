@@ -41,3 +41,14 @@ git push heroku master
 ```
 
 But again, please make sure your changes are in github master first. Then all will be synced up nicely
+
+**Setup users and register services in heroku**
+
+```
+ heroku run python manage.py register-service --app registry-gov
+```
+
+```
+ heroku run python manage.py create-user --app registry-gov
+```
+
