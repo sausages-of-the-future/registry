@@ -1,6 +1,6 @@
-**Set up users and services in this application**
+###Set up users and services in this application
 
-Users / people:
+**Users / people:**
 
 To create a user (also creates a person) run:
 
@@ -8,17 +8,17 @@ To create a user (also creates a person) run:
 scripts/create-user.sh
 ```
 
-Registering a service:
+**Registering a service:**
 
 ```
 scripts/register-service-sh
 ```
 
-**Deploy to heroku**
+###Deploy to heroku
 
 Make sure you have [installed the heroku toolbelt](https://toolbelt.heroku.com/)
 
-*Note if you add anthing to environment.sh or environment_private.sh then add those config items to the heroku app as well*
+**Note if you add anthing to environment.sh or environment_private.sh then add those config items to the heroku app as well**
 
 For example
 ```
@@ -42,10 +42,10 @@ git push heroku master
 
 But again, please make sure your changes are in github master first. Then all will be synced up nicely
 
-**Setup users and register services in heroku**
+###Setup users and register services in heroku
 
 
-Register a service:
+**Register a service:**
 ```
  heroku run python manage.py register-service --app registry-gov
 ```
@@ -56,7 +56,7 @@ For the moment when running this in heroku, when you are asked for the OAuth red
 OAuth redirect URI: http://organisations-gov.herokuapp.com/verified
 ```
 
-Create a user:
+**Create a user:**
 ```
  heroku run python manage.py create-user --app registry-gov
 ```
