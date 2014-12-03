@@ -1,4 +1,4 @@
-from flask import request
+from flask import request, current_app
 from flask.ext.restful import reqparse, abort, Resource, inputs
 from mongoengine import DoesNotExist, ValidationError
 from registry import api, registers, app, oauth
@@ -64,6 +64,7 @@ class Licence(Resource):
 
     @oauth.require_oauth()
     def get(self, _id):
+
         valid_view_scope, req = oauth.verify_request(['licence:view'])
         if valid_view_scope:
             licence = mongo_get_or_abort(_id, registers.Licence)
@@ -97,13 +98,13 @@ class LicenceList(Resource):
     @oauth.require_oauth('licence:add')
     def post(self):
 
-        #this would be gov only, for a particular user
         self.parser.add_argument('type_uri', type=inputs.url, required=True, location='json', help="Must be a valid URI")
         self.parser.add_argument('starts_at', type=inputs.date, required=True, location='json', help="Must be a valid date eg ISO 2013-01-01")
         self.parser.add_argument('ends_at', type=inputs.date, required=True, location='json', help="Must be a valid date eg ISO 2013-01-01")
         args = self.parser.parse_args()
 
         licence = registers.Licence()
+
         licence.person_uri = request.oauth.user.person_uri
         licence.type_uri = args['type_uri']
         licence.starts_at = args['starts_at']
@@ -112,7 +113,9 @@ class LicenceList(Resource):
         try:
             licence.save()
         except ValidationError, e:
+            current_app.logger.debug('exception %s' % e)
             return "Failed", 500
+
         return licence.uri, 201
 
 class OrganisationList(Resource):
