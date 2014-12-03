@@ -44,10 +44,19 @@ But again, please make sure your changes are in github master first. Then all wi
 
 **Setup users and register services in heroku**
 
+
+Register a service:
 ```
  heroku run python manage.py register-service --app registry-gov
 ```
 
+For the moment when running this in heroku, when you are asked for the OAuth redirect URI, use http not https. e.g.
+
+```
+OAuth redirect URI: http://organisations-gov.herokuapp.com/verified
+```
+
+Create a user:
 ```
  heroku run python manage.py create-user --app registry-gov
 ```
