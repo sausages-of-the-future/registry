@@ -4,7 +4,7 @@
     <div class="small-12 columns">
     <h2>{{ client.name }} wants:</h2>
       <ul class="permissions">
-        {% for key,value in avaliable_scopes.iteritems() %}
+        {% for key,value in avaliable_scopes.items() %}
             {% for scope in scopes %}
               {% if scope == key %}
                   <li>{{value|lower}}</li>

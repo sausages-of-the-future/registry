@@ -41,6 +41,6 @@ api.decorators=[cors.crossdomain(origin='*', headers = "origin,content-type,acce
 #oauth
 oauth = OAuth2Provider(app)
 
-from registry import resources
-from registry import views
-from registry import auth
+from . import resources
+from . import views
+from . import auth

@@ -1,5 +1,5 @@
 import uuid
-import urllib
+import urllib.request, urllib.parse, urllib.error
 import hashlib
 from flask import request
 from flask.ext.login import current_user
@@ -81,7 +81,7 @@ def save_token(token_data, request, *args, **kwargs):
     token.refresh_token=token_data['refresh_token']
     token.token_type = token_data['token_type']
     token.user = user
-    token._scopes = urllib.unquote_plus(token_data['scope'])
+    token._scopes = urllib.parse.unquote_plus(token_data['scope'])
     token.expires=expires
     token.client = client
 
@@ -99,7 +99,7 @@ class AuthUser(Document):
 
     def is_active(self):
         #method required for flask-login
-        return self.active 
+        return self.active
 
     def get_id(self):
         #method required for flask-login
@@ -118,13 +118,15 @@ class AuthUser(Document):
     def create_user(email, password):
         user = AuthUser()
         user.email = email
-        user.password = hashlib.md5(app.config['SECRET_KEY'] + password).hexdigest()
+        secret_and_password = app.config['SECRET_KEY'] + password
+        user.password = hashlib.md5(secret_and_password.encode('utf-8')).hexdigest()
         user.save()
         return user
 
     @staticmethod
     def validate_user(email, password):
-        hashed_password = hashlib.md5(app.config['SECRET_KEY'] + password).hexdigest()
+        secret_and_password = app.config['SECRET_KEY'] + password
+        hashed_password = hashlib.md5(secret_and_password.encode('utf-8')).hexdigest()
         try:
             user = AuthUser.objects.get(email=email, password=hashed_password)
             return user

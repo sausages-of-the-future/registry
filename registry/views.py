@@ -1,7 +1,7 @@
-import forms
 from flask import render_template, request, redirect, url_for, session
 from flask.ext.login import login_required, login_user, logout_user, current_user
-from registry import app, auth, oauth, login_manager, registers
+
+from registry import app, auth, oauth, login_manager, registers, forms
 from registry.auth import AuthClient, AuthToken, AuthUser
 #from mongoengine import DoesNotExist
 
@@ -50,17 +50,17 @@ def registry_catalogue():
     for cls in registers.registry_classes:
         properties = []
         exclude = ('MultipleObjectsReturned', 'id', 'DoesNotExist', 'objects', 'to_dict')
-        for property, value in vars(cls).iteritems():
+        for property, value in list(vars(cls).items()):
             if property.find('_') != 0 and property not in exclude:
                 properties.append(property)
 
-        for property, value in vars(registers.RegisterBase).iteritems():
+        for property, value in list(vars(registers.RegisterBase).items()):
             if property.find('_') != 0 and property not in exclude:
                 properties.append(property)
 
         registries.append({'name': cls.__name__, 'description': cls.__doc__, 'properties': properties})
 
-    registries = sorted(registries, key=lambda k: k['name']) 
+    registries = sorted(registries, key=lambda k: k['name'])
     return render_template('registry-catalogue.html', registries=registries)
 
 @app.route('/signout')
@@ -92,7 +92,6 @@ def access_token():
 @oauth.authorize_handler
 @login_required
 def authorize(*args, **kwargs):
-
     if request.method == 'GET':
         client = AuthClient.objects.get(client_id=request.args.get('client_id'))
         kwargs['client'] = client

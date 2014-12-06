@@ -112,7 +112,7 @@ class LicenceList(Resource):
 
         try:
             licence.save()
-        except ValidationError, e:
+        except ValidationError as e:
             current_app.logger.debug('exception %s' % e)
             return "Failed", 500
 
@@ -148,7 +148,7 @@ class OrganisationList(Resource):
 
         try:
             organisation.save()
-        except ValidationError, e:
+        except ValidationError:
             return "Failed", 500
         return organisation.uri, 201
 

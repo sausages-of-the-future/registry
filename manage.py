@@ -19,8 +19,8 @@ class RegisterService(Command):
 
         client = auth.AuthClient.register_service(service_name, service_description, scopes, redirect_uri)
 
-        print "You client ID is: %s" % client.client_id
-        print "You client secret is: %s" % client.client_secret
+        print("You client ID is: %s" % client.client_id)
+        print("You client secret is: %s" % client.client_secret)
 
 class ResetAll(Command):
     """
