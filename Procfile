@@ -1,2 +1,2 @@
-web: gunicorn -b 0.0.0.0:$PORT -k eventlet registry:app
+web: gunicorn -b 0.0.0.0:$PORT registry:app
 
