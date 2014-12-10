@@ -8,3 +8,4 @@ export MONGODB_DB='betagov_registers'
 export MONGODB_HOST=127.0.0.1
 export ACCESS_CONTROL_ALLOW_ORIGIN='*'
 export OAUTH2_PROVIDER_TOKEN_EXPIRES_IN=7776000
+export WWW_BASE_URL='http://www.gov.local'

@@ -7,6 +7,7 @@ class Config(object):
     OAUTH2_PROVIDER_TOKEN_EXPIRES_IN = int(os.environ['OAUTH2_PROVIDER_TOKEN_EXPIRES_IN'])
     MONGODB_DB = os.environ['MONGODB_DB']
     MONGODB_HOST = os.environ['MONGODB_HOST']
+    WWW_BASE_URL = os.environ['WWW_BASE_URL']
 
 class DevelopmentConfig(Config):
     DEBUG = True
