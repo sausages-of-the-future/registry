@@ -1,0 +1,15 @@
+{% from "_formhelpers.html" import render_field %}
+{% extends "base.html" %}
+{% block content %}
+  <div class="row">
+    <div class="small-12 columns">
+      <h1>Choose a verify provider</h1>
+      <p>
+        You can use a different providers to verify your identity to different services
+        and different registers.
+      </p>
+      <a href="{{url_for('login')}}?next={{next}}&provider=vouchme" class="button expand">Vouch Me</a> 
+      <a href="{{url_for('login')}}?next={{next}}&provider=idat" class="button expand">IDAT</a> 
+    </div>
+  </div>
+{% endblock %}

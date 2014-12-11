@@ -9,8 +9,15 @@ from registry.auth import AuthClient, AuthToken, AuthUser
 def index():
     return render_template('index.html')
 
+@app.route('/choose-provider', methods=['GET', 'POST'])
+def choose_provider():
+    next_ = request.args.get('next', None)
+    form = forms.ChooseProviderForm()
+    return render_template('choose-provider.html', form=form, next=next_)
+
 @app.route('/signin', methods=['GET', 'POST'])
 def login():
+    provider = request.args.get('provider', None)
     form = forms.LoginForm(request.form)
     failed = False
     if request.method == 'POST' and form.validate():
@@ -24,7 +31,7 @@ def login():
         else:
             failed = True
 
-    return render_template('login.html', form=form, failed=failed)
+    return render_template('login.html', form=form, failed=failed, provider=provider)
 
 @app.route('/export')
 @login_required

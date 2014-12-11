@@ -1,9 +1,44 @@
 {% from "_formhelpers.html" import render_field %}
 {% extends "base.html" %}
 {% block content %}
+  <style>
+    body, h1 {
+      padding-top:4rem;
+      color:#fff;
+      font-family:helvetica, sans-serif;
+      {% if provider == 'vouchme' %}
+         background:#6C7A89;
+      {% else %}
+        background:#913D88;
+      {% endif %}
+    }
+    span.error {
+      background:none;
+    }
+    div.error label, label {
+      color:#fff;
+      font-size:1.2rem;;
+    }
+    .button, button:hover {
+      background:#fff;
+      color:#333;
+      width:100%;
+      margin-top:2rem;
+    }
+    h1{
+      text-align:center;
+    }
+    .header {
+      display:none;
+    }
+  </style>
   <div class="row">
     <div class="small-12 columns">
-      <h1>Sign in</h1>
+      {% if provider == 'vouchme' %}
+        <h1>Sign in to Vouch Me</h1>
+      {% else %}
+        <h1>Sign in to IDAT</h1>
+      {% endif %}
       <form action="" method="post">
         {% if failed %}
           <div data-alert class="alert-box alert">
@@ -12,6 +47,7 @@
         {% endif %}
         {{ render_field(form.email) }}
         {{ render_field(form.password) }}
+        {{ render_field(form.twofactor) }}
         <p>
             <input type="submit" class="button" value="Sign in">
         </p>
