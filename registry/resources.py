@@ -1,7 +1,9 @@
-from flask import request, current_app
+from flask import request, current_app, abort
 from flask.ext.restful import reqparse, abort, Resource, inputs
 from mongoengine import DoesNotExist, ValidationError
 from registry import api, registers, app, oauth
+
+from registry.models import LicenceModel, LicenseFields
 #from flask_restful.utils import cors
 
 def mongo_get_or_abort(_id, cls):
@@ -64,19 +66,11 @@ class Licence(Resource):
 
     @oauth.require_oauth()
     def get(self, _id):
-
         valid_view_scope, req = oauth.verify_request(['licence:view'])
         if valid_view_scope:
-            licence = mongo_get_or_abort(_id, registers.Licence)
-            #if belongs to use token, then we can return more info
-            #todo: return different data for each of these states
-            if licence.person_uri == request.oauth.user.person_uri:
-                return licence.to_dict()
-            else:
-                return licence.to_dict()
+            return LicenceModel.find_by_id(_id)
         else:
-            return mongo_get_or_abort(_id, registers.Licence).to_dict()
-
+            return abort(403)
 
 class LicenceList(Resource):
 
@@ -89,11 +83,7 @@ class LicenceList(Resource):
 
     @oauth.require_oauth('licence:view')
     def get(self):
-        result = []
-        licences = registers.Licence.objects(person_uri=request.oauth.user.person_uri)
-        for licence in licences:
-            result.append(licence.to_dict())
-        return result
+        return LicenceModel.find_by_user(request.oauth.user.pk)
 
     @oauth.require_oauth('licence:add')
     def post(self):
@@ -101,22 +91,26 @@ class LicenceList(Resource):
         self.parser.add_argument('type_uri', type=inputs.url, required=True, location='json', help="Must be a valid URI")
         self.parser.add_argument('starts_at', type=inputs.date, required=True, location='json', help="Must be a valid date eg ISO 2013-01-01")
         self.parser.add_argument('ends_at', type=inputs.date, required=True, location='json', help="Must be a valid date eg ISO 2013-01-01")
+        self.parser.add_argument('licence_type', type=str, required=True, location='json', help="The type of licence")
         args = self.parser.parse_args()
 
-        licence = registers.Licence()
-
-        licence.person_uri = request.oauth.user.person_uri
-        licence.type_uri = args['type_uri']
-        licence.starts_at = args['starts_at']
-        licence.ends_at = args['ends_at']
+        fields = LicenseFields()
+        fields.issuedFor = str(request.oauth.user.pk)
+        fields.validFrom = args['starts_at']
+        fields.validUntil = args['ends_at']
+        licence = LicenceModel()
+        licence.fields = fields
+        licence.type = 'Licence'
+        licence.tags = [args['licence_type']]
 
         try:
             licence.save()
-        except ValidationError as e:
+        except Exception as e:
             current_app.logger.debug('exception %s' % e)
             return "Failed", 500
 
-        return licence.uri, 201
+        return "OK", 201
+
 
 class OrganisationList(Resource):
 

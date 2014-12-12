@@ -51,6 +51,7 @@ def service_catalogue():
     clients = auth.AuthClient.objects.all()
     return render_template('service-catalogue.html', clients=clients, log=log)
 
+#TODO - Generate metadata from Things app
 @app.route('/registry-catalogue')
 def registry_catalogue():
     registries = []
