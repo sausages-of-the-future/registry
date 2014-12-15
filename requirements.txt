@@ -23,5 +23,3 @@ python-dateutil==2.3
 pytz==2014.10
 six==1.8.0
 voluptuous==0.8.6
-schematics==1.0-0
-requests==2.5.0

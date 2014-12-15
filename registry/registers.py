@@ -86,6 +86,22 @@ class Amenity(RegisterBase):
                 'created_at': self.born_at.isoformat()
                }
 
+class Licence(RegisterBase):
+    """
+    A list of licences that have been issued to people and organisations
+    """
+    person_uri = URLField(required=True)
+    starts_at = DateTimeField(required=True)
+    ends_at = DateTimeField(required=True)
 
-registry_classes = [Person, Organisation, Notice, Amenity, Address, Area]
+    def to_dict(self):
+        return {
+                'uri': self.uri,
+                'person_uri': self.person_uri,
+                'type_uri': self.type_uri,
+                'starts_at': self.starts_at.isoformat(),
+                'ends_at': self.ends_at.isoformat()
+                }
+
+registry_classes = [Person, Licence, Organisation, Notice, Amenity, Address, Area]
 
