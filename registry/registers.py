@@ -6,7 +6,9 @@ avaliable_scopes = {
     'person:view': 'Permission to person ID and date of birth',
     'licence:view': 'View licences you hold',
     'licence:add': 'Issue a licence to you',
-    'organisation:add': 'Create an organisation'
+    'organisation:add': 'Create an organisation',
+    'vehicle:view': 'View details of cars and other vehicles registered to you',
+    'address:view': 'View your current address',
     }
 
 class  RegisterBase(Document):
@@ -37,13 +39,17 @@ class Organisation(RegisterBase):
     """
     A list of organsiations (companies, charities, trade unions, political parties)
     """
+    _slug = 'organisations'
     name = StringField(required=True)
+    activities = StringField()
     created_at = DateTimeField()
 
     def to_dict(self):
-        return {'name': self.name,
-                'created_at': self.born_at.isoformat()
-               }
+        return {
+                'uri': self.uri,
+                'name': self.name,
+                'activities': self.activities
+                }
 
 class Notice(RegisterBase):
     """
@@ -104,4 +110,3 @@ class Licence(RegisterBase):
                 }
 
 registry_classes = [Person, Licence, Organisation, Notice, Amenity, Address, Area]
-

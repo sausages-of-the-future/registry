@@ -1,3 +1,4 @@
+from datetime import datetime
 from flask import request, current_app
 from flask.ext.restful import reqparse, abort, Resource, inputs
 from mongoengine import DoesNotExist, ValidationError
@@ -118,6 +119,21 @@ class LicenceList(Resource):
 
         return licence.uri, 201
 
+class Organisation(Resource):
+
+    def options(self):
+        pass
+
+    def put(self):
+        return "Forbidden", 403
+
+    def delete(self):
+        return "Forbidden", 403
+
+    def get(self, _id):
+        organisation = mongo_get_or_abort(_id, registers.Organisation)
+        return organisation.to_dict()
+
 class OrganisationList(Resource):
 
     def __init__(self):
@@ -129,7 +145,7 @@ class OrganisationList(Resource):
 
     def get(self):
         result = []
-        organisations = registers.Organisation.objects(person_uri=request.oauth.user.person_uri)
+        organisations = registers.Organisation.objects()
         for organisation in organisations:
             result.append(organisation.to_dict())
         return result
@@ -140,18 +156,20 @@ class OrganisationList(Resource):
         #this would be gov only, for a particular user
         self.parser.add_argument('type_uri', type=inputs.url, required=True, location='json', help="Must be a valid URI")
         self.parser.add_argument('name', required=True, location='json', help="An organisaiton must have a name")
+        self.parser.add_argument('activities', location='json')
         args = self.parser.parse_args()
 
         organisation = registers.Organisation()
         organisation.name = args['name']
         organisation.type_uri = args['type_uri']
+        organisation.activities = args['activities']
+        organisation.created_at = datetime.now()
 
         try:
             organisation.save()
         except ValidationError:
             return "Failed", 500
         return organisation.uri, 201
-
 
 #routes
 api.add_resource(About, '/about')
@@ -160,3 +178,4 @@ api.add_resource(PersonList, '/people')
 api.add_resource(Licence, '/licences/<string:_id>')
 api.add_resource(LicenceList, '/licences')
 api.add_resource(OrganisationList, '/organisations')
+api.add_resource(Organisation, '/organisations/<string:_id>')
