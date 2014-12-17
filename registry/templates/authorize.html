@@ -21,8 +21,10 @@
         {% if state %}
           <input type="hidden" name="state" value="{{ state }}">
         {% endif %}
-        <button type="submit" class="button" name="confirm" value="yes">Yes</button>
-        <button type="submit" class="button  secondary" name="confirm" value="no">No</button>
+        <ul class="button-group even-2">
+          <li><button type="submit" class="button" name="confirm" value="yes">Yes</button></li>
+          <li><button type="submit" class="button  secondary" name="confirm" value="no">No</button></li>
+        </ul>
       </form>
     </div>
   </div>
