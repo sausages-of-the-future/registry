@@ -22,6 +22,22 @@ class RegisterService(Command):
         print("You client ID is: %s" % client.client_id)
         print("You client secret is: %s" % client.client_secret)
 
+class DeregisterService(Command):
+    """
+    Register a new service, returns a client ID and a client secret
+    that you need to copy into the client app
+    """
+    def run(self):
+        client_id = prompt('Client ID')
+        client = auth.AuthClient.objects.filter(client_id=client_id)[0]
+        grants = auth.AuthGrant.objects.filter(client=client)
+        tokens = auth.AuthToken.objects.filter(client=client)
+        for grant in grants:
+            grant.delete()
+        for token in tokens:
+            token.delete()
+        client.delete()
+
 class ResetAll(Command):
     """
     Remove *everything* from mongodb
@@ -66,6 +82,7 @@ class CreateUser(Command):
 #register commands
 manager = Manager(app)
 manager.add_command('register-service', RegisterService())
+manager.add_command('deregister-service', DeregisterService())
 manager.add_command('reset-all', ResetAll())
 manager.add_command('create-user', CreateUser())
 manager.add_command('list-clients', ListClients())
