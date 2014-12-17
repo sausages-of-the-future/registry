@@ -31,6 +31,20 @@ class ResetAll(Command):
             db = connect(app.config['MONGODB_DB'])
             db.drop_database(app.config['MONGODB_DB'])
 
+class ListClients(Command):
+    """
+    List all the clients (for setup purposes only)
+    """
+    def run(self):
+        clients =  auth.AuthClient.objects.all()
+        for client in clients:
+            print("\n")
+            print(client.name)
+            print("ID: %s" % client.client_id)
+            print("Secret: %s" % client.client_secret)
+            print("Scopes: %s" % client._default_scopes)
+            print("URI: %s" % client._redirect_uris)
+
 class CreateUser(Command):
     """
     Create an Auth user and a Person (which are intentionally seperate things),
@@ -54,6 +68,7 @@ manager = Manager(app)
 manager.add_command('register-service', RegisterService())
 manager.add_command('reset-all', ResetAll())
 manager.add_command('create-user', CreateUser())
+manager.add_command('list-clients', ListClients())
 
 if __name__ == "__main__":
     manager.run()
