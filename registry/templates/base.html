@@ -16,24 +16,19 @@
 
   <div class="header registry">
     <nav class="top-bar" data-topbar>
-    <ul class="title-area">
-      <li class="name">
-      <h1><a href="/">Permissions and catalog</em></a></h1>
-      </li>
-    </ul>
-
-      {% if session['user_id'] %}
-        <section class="top-bar-section">
-          <ul class="right">
-            <li>
-              <a href="{{url_for('logout')}}">Sign out</a>
-            </li>
-          </ul>
-        </section>
-      {% endif %}
+      <h1><a href="/">Permissions and catalog</a></h1>
     </nav>
   </div>
   {% block content %}
   {% endblock %}
+  {% if session['user_id'] %}
+  <div class="row">
+    <div class="small-12 columns">
+      <p>
+        <a class="button expand" href="{{url_for('logout')}}">Sign out</a>
+      </p>
+    </div>
+   </div>
+  {% endif %}
   </body>
 </html>
