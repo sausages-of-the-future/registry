@@ -32,7 +32,7 @@ db = MongoEngine(app)
 
 #login
 login_manager = LoginManager(app)
-login_manager.login_view = "choose_provider"
+login_manager.login_view = "%s/choose-provider" % app.config['BASE_URL']
 
 #api
 api = restful.Api(app)
