@@ -9,8 +9,8 @@
         You can use a different providers to verify your identity to different services
         and different registers.
       </p>
-      <a href="{{url_for('login')}}?next={{next}}&provider=vouchme" class="button expand">Vouch Me</a> 
-      <a href="{{url_for('login')}}?next={{next}}&provider=idat" class="button expand">IDAT</a> 
+      <a href="{{url_for('login')}}?next={{next|urlencode}}&provider=vouchme" class="button expand">Vouch Me</a> 
+      <a href="{{url_for('login')}}?next={{next|urlencode}}&provider=idat" class="button expand">IDAT</a> 
     </div>
   </div>
 {% endblock %}

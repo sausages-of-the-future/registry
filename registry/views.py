@@ -12,8 +12,8 @@ def index():
 @app.route('/choose-provider', methods=['GET', 'POST'])
 def choose_provider():
     next_ = request.args.get('next', None)
-    next_ = next_.replace('http%', 'https%') #hack url to https
-    next_ = next_.replace('http:', 'https:') #hack url to https
+    #next_ = next_.replace('http%', 'https%') #hack url to https
+    #next_ = next_.replace('http:', 'https:') #hack url to https
     form = forms.ChooseProviderForm()
     return render_template('choose-provider.html', form=form, next=next_)
 
