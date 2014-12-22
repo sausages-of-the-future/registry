@@ -154,14 +154,14 @@ class OrganisationList(Resource):
     def post(self):
 
         #this would be gov only, for a particular user
-        self.parser.add_argument('type_uri', type=inputs.url, required=True, location='json', help="Must be a valid URI")
         self.parser.add_argument('name', required=True, location='json', help="An organisaiton must have a name")
+        self.parser.add_argument('organisation_type', required=True, location='json', help="An organisaiton must type")
         self.parser.add_argument('activities', location='json')
         args = self.parser.parse_args()
 
         organisation = registers.Organisation()
         organisation.name = args['name']
-        organisation.type_uri = args['type_uri']
+        organisation.organisation_type = args['organisation_type']
         organisation.activities = args['activities']
         organisation.created_at = datetime.now()
 

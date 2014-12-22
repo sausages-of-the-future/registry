@@ -41,6 +41,7 @@ class Organisation(RegisterBase):
     """
     _slug = 'organisations'
     name = StringField(required=True)
+    organisation_type = StringField(required=True)
     activities = StringField()
     created_at = DateTimeField()
 
@@ -48,7 +49,8 @@ class Organisation(RegisterBase):
         return {
                 'uri': self.uri,
                 'name': self.name,
-                'activities': self.activities
+                'activities': self.activities,
+                'organisation_type': self.organisation_type
                 }
 
 class Notice(RegisterBase):

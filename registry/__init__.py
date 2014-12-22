@@ -44,3 +44,4 @@ oauth = OAuth2Provider(app)
 from . import resources
 from . import views
 from . import auth
+
