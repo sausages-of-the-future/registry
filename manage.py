@@ -73,7 +73,7 @@ class ImportData(Command):
         registers.List.objects.delete()
 
         # list of occupations
-        with open("/%s/shortage-occupation-list.json" % import_dir, 'rb') as json_file:
+        with open("%s/shortage-occupation-list.json" % import_dir, 'rb') as json_file:
             job_list = json.loads(json_file.read().decode(encoding='UTF-8'))
             list_ = registers.List()
             list_.name="Shortage occupation list"
