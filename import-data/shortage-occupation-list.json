@@ -1,0 +1,79 @@
+{ "jobs": 
+    [
+        {
+            "category": "Production managers and directors in mining and energy",
+            "job-titles": ["managing director", "programme director", "site director"],
+            "salary": {"new": 15000, "experienced": 37900}
+        },
+        {
+            "category": "Biological scientists and biochemists",
+            "job-titles": ["clinical neurophysiologist"],
+            "salary": {"new": 21000, "experienced": 27000}
+        },
+        {
+            "category": "Physical Scientists",
+            "job-titles": ["engineering geologist", "hydrogeologist", "geophysicist", "nuclear medicine scientist"],
+            "salary": {"new": 21000, "experienced": 27000}
+        },
+        {
+            "category": "Natural and social science professionals not elsewhere classified",
+            "job-titles": ["informatician", "bio-informatician"],
+            "salary": {"new": 21000, "experienced": 27000}
+        },
+        {
+            "category": "Civil engineers",
+            "job-titles": ["geotechnical engineer", "tunnelling engineer", "petroleum engineer", "drilling engineer", "completions engineer"],
+            "salary": {"new": 21200, "experienced": 28700}
+        },
+        {
+            "category": "Mechanical engineers",
+            "job-titles": ["mechanical engineer in the oil and gas industry"],
+            "salary": {"new": 24000, "experienced": 31200}
+        },
+        {
+            "category": "Electrical engineers",
+            "job-titles": ["power system engineer", "control engineer", "protection engineer", "electrical machine design engineer (aerospace)", "power electronics engineer"],
+            "salary": {"new": 21000, "experienced": 32500}
+        },
+        {
+            "category": "Medical Radiographers",
+            "job-titles": ["HPC registered diagnostic radiographer", "HPC registered therapeutic radiographer", "sonographer engineer", "electrical machine design engineer (aerospace)", "power electronics engineer"],
+            "salary": {"Band 5 and equivalent": 21388, "Band 6 and equivalent": 25783, "Band 7 and equivalent": 30764}
+        },
+        {
+            "category": "Nurses",
+            "job-titles": ["specialist nurse working in neonatal intensive care units"],
+            "salary": {"Band 5 and equivalent": 21388, "Band 6 and equivalent": 25783, "Band 7 and equivalent": 30764}
+        },
+        {
+            "category": "Social workers",
+            "job-titles": ["social worker working in children’s and family services"],
+            "salary": {"Band 5 and equivalent": 21388, "Band 6 and equivalent": 25783, "Band 7 and equivalent": 30764}
+        },
+        {
+            "category": "Artist",
+            "job-titles": ["Animator in visual effects and 2D/3D computer animation for the film, television or video games sectors"],
+            "salary": {"new": 16700, "experienced": 18900}
+        },
+        {
+            "category": "Graphic designers",
+            "job-titles": ["compositing artist", "matte painter", "modeller", "rigger", "stereo artist", "texture artist"],
+            "salary": {"new": 16700, "experienced": 18900}
+        },
+        {
+            "category": "Chefs",
+            "job-titles": ["executive chef – limited to one per establishment", "head chef – limited to one per establishment", "sous chef – limited to one for every four kitchen staff per establishment", "specialist chef – limited to one per speciality per establishment"],
+            "salary": {"experienced": 29570}
+        },
+        {
+            "category": "Line repairers and cable jointers",
+            "job-titles": ["overhead linesworker, working on high voltage lines that carry at least 275,000 volts"],
+            "salary": {"new": 15400, "experienced": 27000}
+        },
+        {
+            "category": "Aircraft maintenance and related trades",
+            "job-titles": ["licensed and military certifying engineer/inspector technician"],
+            "salary": {"new": 18600, "experienced": 29570}
+        }
+    ]
+}

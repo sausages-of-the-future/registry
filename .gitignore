@@ -4,6 +4,5 @@ include
 .Python
 *.pyc
 .DS_Store
-import-data
 local_config.py
 register/static/vendor
