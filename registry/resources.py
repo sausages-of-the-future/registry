@@ -119,6 +119,40 @@ class LicenceList(Resource):
 
         return licence.uri, 201
 
+class List(Resource):
+
+    def options(self):
+        pass
+
+    def put(self):
+        return "Forbidden", 403
+
+    def delete(self):
+        return "Forbidden", 403
+
+    def get(self, _id):
+        list_ = mongo_get_or_abort(_id, registers.List)
+        return list_.to_dict()
+
+class ListList(Resource):
+
+    def __init__(self):
+        self.parser = reqparse.RequestParser()
+        super(ListList, self).__init__()
+
+    def options(self):
+        pass
+
+    def get(self):
+        result = []
+        lists = registers.List.objects()
+        for list_ in lists:
+            result.append(list_.to_dict())
+        return result
+
+    def post(oauth, self):
+        return "Forbidden", 403
+
 class Organisation(Resource):
 
     def options(self):
@@ -177,5 +211,7 @@ api.add_resource(Person, '/people/<string:_id>')
 api.add_resource(PersonList, '/people')
 api.add_resource(Licence, '/licences/<string:_id>')
 api.add_resource(LicenceList, '/licences')
+api.add_resource(List, '/lists/<string:_id>')
+api.add_resource(ListList, '/lists')
 api.add_resource(OrganisationList, '/organisations')
 api.add_resource(Organisation, '/organisations/<string:_id>')

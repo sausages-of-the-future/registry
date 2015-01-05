@@ -1,6 +1,6 @@
 from registry import app
 from voluptuous import Schema
-from mongoengine import StringField, DateTimeField, DictField, PolygonField, PointField, Document, BooleanField, URLField
+from mongoengine import StringField, DateTimeField, DictField, PolygonField, ListField, PointField, Document, BooleanField, URLField
 
 avaliable_scopes = {
     'person:view': 'Permission to person ID and date of birth',
@@ -67,6 +67,17 @@ class Notice(RegisterBase):
                 'created_at': self.born_at.isoformat()
                }
 
+class List(RegisterBase):
+    """
+    Official lists
+    """
+    _slug = 'lists'
+    name = StringField(required=True)
+    list_data = ListField(DictField())
+
+    def to_dict(self):
+        return {'uri': self.uri, 'name': self.name, 'list_data': self.list_data}
+
 class Address(RegisterBase):
     """
     A list of places
@@ -111,4 +122,4 @@ class Licence(RegisterBase):
                 'ends_at': self.ends_at.isoformat()
                 }
 
-registry_classes = [Person, Licence, Organisation, Notice, Amenity, Address, Area]
+registry_classes = [Person, Licence, List, Organisation, Notice, Amenity, Address, Area]

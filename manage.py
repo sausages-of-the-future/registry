@@ -2,6 +2,10 @@ from flask.ext.script import Manager, Command, prompt_bool, prompt, prompt_pass,
 from mongoengine import connect
 from registry import app, registers, auth
 from datetime import datetime
+import os
+import json
+
+import_dir = '%s/import-data' % os.path.dirname(os.path.abspath(__file__))
 
 class RegisterService(Command):
     """
@@ -61,6 +65,21 @@ class ListClients(Command):
             print("Scopes: %s" % client._default_scopes)
             print("URI: %s" % client._redirect_uris)
 
+class ImportData(Command):
+    """
+    Import all the data needed for a demo
+    """
+    def run(self):
+        registers.List.objects.delete()
+
+        # list of occupations
+        with open("/%s/shortage-occupation-list.json" % import_dir, 'rb') as json_file:
+            job_list = json.loads(json_file.read().decode(encoding='UTF-8'))
+            list_ = registers.List()
+            list_.name="Shortage occupation list"
+            list_.list_data = job_list['jobs']
+            list_.save()
+
 class CreateUser(Command):
     """
     Create an Auth user and a Person (which are intentionally seperate things),
@@ -86,6 +105,7 @@ manager.add_command('deregister-service', DeregisterService())
 manager.add_command('reset-all', ResetAll())
 manager.add_command('create-user', CreateUser())
 manager.add_command('list-clients', ListClients())
+manager.add_command('import-data', ImportData())
 
 if __name__ == "__main__":
     manager.run()
