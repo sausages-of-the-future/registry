@@ -11,7 +11,7 @@ scripts/create-user.sh
 **Registering a service:**
 
 ```
-scripts/register-service-sh
+scripts/register-service.sh
 ```
 
 ###Deploy to heroku
