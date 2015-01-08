@@ -3,51 +3,62 @@
 {% block content %}
   <div class="row">
     <div class="small-12 columns">
+
       <h1>Services catalogue</h1>
-      <p>
-        This is a list of services that have permission to access
-        the registers and their  history.
-      </p>
-      <h2>Services</h2>
-       {% if clients %}
-        {% for client in clients %}
-          <ul class="info-list">
-            <li>
-              <h3>{{client.name}}</h3>
-              <p>{{client.description}}</p>
-              <h4>Permissions:</h4>
-              <ul>
-                {% if client.default_scopes %}
-                  {% for scope in client.default_scopes %}
-                    <li>{{scope}}</li>
-                  {% endfor %}
-                {% else %}
-                  <li>No permissions</li>
-                {% endif %}
+      <dl class="tabs full-2" data-tab>
+        <dd  id="services_tab" class="active">
+          <a href="#services">Services</a>
+        </dd>
+        <dd id="history_tab">
+          <a href="#history">History</a>
+        </dd>
+      </dl> 
+
+      <div class="tabs-content">
+        <div id="services" class="content active"> 
+          {% if clients %}
+            {% for client in clients %}
+              <ul class="info-list">
+                <li>
+                  <h3>{{client.name}}</h3>
+                  <p>{{client.description}}</p>
+                  <h4>Permissions:</h4>
+                  <ul>
+                  {% if client.default_scopes %}
+                    {% for scope in client.default_scopes %}
+                      <li>{{scope}}</li>
+                    {% endfor %}
+                  {% else %}
+                    <li>No permissions</li>
+                  {% endif %}
+                  </ul>
+                </li>
               </ul>
-            </li>
-          </ul>
-        {% endfor %}
-      {% else %}
-        <p>There are no registered services.</p>
-      {% endif %}
-      <h2>History</h2>
-      {% if log %}
-        <table>
-          <tr>
-            <th>Description</th>
-            <th>Date</th>
-          </tr>
-          {% for item in log %}
-            <tr>
-             <td><strong>{{item.client.name}}</strong> {{item.action}}</td>   
-             <td>{{item.occured_at}}</td>   
-            </tr>
           {% endfor %}
-        </table>
-      {% else %}
-        <p>There is no history to show</p>
-      {% endif %}
-    {% endblock %}    
+        {% else %}
+          <p>There are no registered services.</p>
+        {% endif %}
+        </div> 
+        <div id="history" class="content">
+          {% if log %}
+            <table>
+              <tr>
+                <th>Description</th>
+                <th>Date</th>
+              </tr>
+              {% for item in log %}
+                <tr>
+                 <td><strong>{{item.client.name}}</strong> {{item.action}}</td>   
+                 <td>{{item.occured_at}}</td>   
+                </tr>
+              {% endfor %}
+            </table>
+          {% else %}
+            <p>There is no history to show</p>
+          {% endif %}          
+        </div> 
+      </div>    
     </div>
   </div>
+
+{% endblock %}

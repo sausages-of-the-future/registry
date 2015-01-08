@@ -10,25 +10,19 @@
     <link rel="stylesheet" href="{{config.WWW_BASE_URL + '/static/vendor/roboto-slab-fontface/roboto-slab-fontface.css' }}">
     <link rel="stylesheet" href="{{config.WWW_BASE_URL + '/static/vendor/foundation/css/foundation.css' }}">
     <link rel="stylesheet" href="{{config.WWW_BASE_URL + '/static/css/main.css' }}">
+    <script type="text/javascript" src="{{ url_for('static', filename='vendor/jquery/dist/jquery.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='vendor/foundation/js/foundation.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='vendor/foundation/js/foundation/foundation.joyride.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='javascript/main.js') }}"></script>
   </head>
   <body>
 
   <div class="header registry">
     <nav class="top-bar" data-topbar>
-      <h1><a href="/" class="iglogo">IG</a> <a href="/">Permissions and catalog</a></h1>
+      <h1><a href="/" class="iglogo">IG</a> <a href="/">Permissions Manager</a></h1>
     </nav>
   </div>
   {% block content %}
   {% endblock %}
-  {% if session['user_id'] %}
-  <!--<div class="row">-->
-    <!--<div class="small-12 columns">-->
-      <!--<p>-->
-        <!--<a class="button expand" href="{{url_for('logout')}}">Sign out</a>-->
-      <!--</p>-->
-    <!--</div>-->
-   <!--</div>-->
-  {% endif %}
   </body>
 </html>

@@ -1,20 +1,43 @@
 {% extends "base.html" %}
-{% block title %}Permissions and catalog{% endblock%} 
+{% block title %}Permissions manager{% endblock%} 
 {% block content %}
   <div class="row">
     <div class="small-12 columns">
      <ul class="side-nav">
-        <li>
-          <a href="{{url_for('registry_catalogue')}}">Registers</a>
-        </li>
-        <li>
+        <li id="services_link">
           <a href="{{url_for('service_catalogue')}}">Services</a>
         </li>
-        <li>
+        <li id="registers_link">
+          <a href="{{url_for('registry_catalogue')}}">Registers</a>
+        </li>
+        <li id="data_link">
           <a href="{{url_for('your_data')}}">Your data</a>
         </li>
      </ul>
     </div>
   </div>
+  
+  <ol class="joyride-list" data-joyride>
+    <li data-text="Next" data-prev-text="Prev"> 
+      <h4>This is the Permissions Manager</h4>
+      <p>
+        It controls access to <strong>registries</strong> and lets a user know what data is being accessed by which services. Users identify themselves via federated identity assurance.
+      </p> 
+    </li> 
+    <li data-id="services_link" data-class="custom so-awesome" data-text="Next" data-prev-text="Prev">
+      <p>
+        It maintains a list of all the different services that have access to registry data, what sort of service they are (government, non-profit, commercial) and what permissions they have.
+      </p>
+    </li>
+    <li data-id="registers_link" data-text="Next" data-options="tip_location: bottom; prev_button: false"> 
+      <p>
+        It maintains a list of the <strong>registries</strong> and what data they hold in their <strong>registers</strong>.
+      </p> 
+    </li> 
+    <li data-id="data_link" data-button="Next" data-prev-text="Prev" data-options="tip_location:top;tip_animation:fade"> 
+      <p>
+        At any time, users can see which services have access to which bits of their data, what permissions they have and how long for. Users can also export their data.
+      </p>
+    </li>
+  </ol>
 {% endblock %}
-
