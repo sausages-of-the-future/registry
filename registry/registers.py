@@ -31,9 +31,10 @@ class Person(RegisterBase):
     """
     _slug = 'people'
     born_at = DateTimeField()
+    full_name = StringField()
 
     def to_dict(self):
-        return {'born_at': self.born_at.isoformat()}
+        return {'born_at': self.born_at.isoformat(), 'full_name': self.full_name}
 
 class Organisation(RegisterBase):
     """
@@ -44,13 +45,15 @@ class Organisation(RegisterBase):
     organisation_type = StringField(required=True)
     activities = StringField()
     created_at = DateTimeField()
+    directors = ListField()
 
     def to_dict(self):
         return {
                 'uri': self.uri,
                 'name': self.name,
                 'activities': self.activities,
-                'organisation_type': self.organisation_type
+                'organisation_type': self.organisation_type,
+                'directors' : self.directors
                 }
 
 class Notice(RegisterBase):

@@ -166,6 +166,19 @@ class Organisation(Resource):
 
     def get(self, _id):
         organisation = mongo_get_or_abort(_id, registers.Organisation)
+
+        # taking a short cut and swap in director names for the moment
+        # look again at this access and how it's mediated as www app that
+        # is first client of this end point, does not have permissions to view
+        # person register and therefore can't resolve a person url
+        director_names = []
+        for person_uri in organisation.directors:
+            person_id = person_uri.split('/')[-1]
+            person = registers.Person.objects(id=person_id).first()
+            director_names.append(person.full_name)
+
+        # this is for the preceding hack
+        organisation.directors = director_names
         return organisation.to_dict()
 
 class OrganisationList(Resource):
@@ -198,6 +211,8 @@ class OrganisationList(Resource):
         organisation.organisation_type = args['organisation_type']
         organisation.activities = args['activities']
         organisation.created_at = datetime.now()
+        organisation.directors.append(request.oauth.user.person_uri)
+        # alternatively store person resource name?
 
         try:
             organisation.save()
