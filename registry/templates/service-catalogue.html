@@ -18,22 +18,21 @@
         <div id="services" class="content active"> 
           {% if clients %}
             {% for client in clients %}
-              <ul class="info-list">
-                <li>
-                  <h3>{{client.name}}</h3>
-                  <p>{{client.description}}</p>
-                  <h4>Permissions:</h4>
-                  <ul>
-                  {% if client.default_scopes %}
-                    {% for scope in client.default_scopes %}
-                      <li>{{scope}}</li>
-                    {% endfor %}
-                  {% else %}
-                    <li>No permissions</li>
-                  {% endif %}
-                  </ul>
-                </li>
-              </ul>
+              <div class="panel">
+                <span class="label right">{{client.organisation_type}}</span>
+                <h3>{{client.name}}</h3>
+                <p>{{client.description}}</p>
+                <h4>Can request to:</h4>
+                <ul>
+                {% if client.default_scopes %}
+                  {% for scope in client.default_scopes %}
+                    <li>{{scope|format_scope}}</li>
+                  {% endfor %}
+                {% else %}
+                  <li>No permissions</li>
+                {% endif %}
+                </ul>
+              </div>
           {% endfor %}
         {% else %}
           <p>There are no registered services.</p>

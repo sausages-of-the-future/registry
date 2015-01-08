@@ -16,12 +16,13 @@ class RegisterService(Command):
         scopes = []
         service_name = prompt('Service name')
         service_description = prompt('Description')
+        service_organisation_type = prompt_choices('Organisation type', ['central government', 'local government', 'devolved government', 'non-profit', 'commercial']) 
         redirect_uri = prompt('OAuth redirect URI')
         for scope in registers.avaliable_scopes:
             if prompt_bool("Register for %s (%s)?" % (scope, registers.avaliable_scopes[scope].lower())):
                 scopes.append(scope)
 
-        client = auth.AuthClient.register_service(service_name, service_description, scopes, redirect_uri)
+        client = auth.AuthClient.register_service(service_name, service_description, scopes, redirect_uri, service_organisation_type)
 
         print("You client ID is: %s" % client.client_id)
         print("You client secret is: %s" % client.client_secret)

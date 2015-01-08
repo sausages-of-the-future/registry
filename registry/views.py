@@ -5,11 +5,18 @@ from registry import app, auth, oauth, login_manager, registers, forms
 from registry.auth import AuthClient, AuthToken, AuthUser
 #from mongoengine import DoesNotExist
 
+#filters
+@app.template_filter('format_scope')
+def format_scope_filter(value):
+    result = ''
+    for k,v in registers.avaliable_scopes.items():
+        if value == k:
+            result = v
+    return result
 
 @app.route('/')
 def index():
     return render_template('index.html')
-
 
 @app.route('/choose-provider', methods=['GET', 'POST'])
 def choose_provider():
