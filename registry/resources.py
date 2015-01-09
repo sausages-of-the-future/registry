@@ -229,14 +229,10 @@ class OrganisationList(Resource):
         organisation.register_construction = args['register_construction']
         # alternatively store person resource name?
 
-        #TODO save record to DataProtection and Employers Register if
-        # register_data and register_employer are true
-        # maybe store link from org to data protection registration record
-        # as well instead of boolean above?
-
         try:
             organisation.save()
 
+            #if relevant create links to DataProtection and Employers Register
             if register_data:
                 data_protection = registers.DataProtection()
                 data_protection.organisation_uri = organisation.uri
@@ -283,7 +279,7 @@ class DataProtectionList(Resource):
         return "Not Implemented", 501
 
     def get(self):
-        return "Forbidden", 403
+        return "Not Implemented", 501
 
 
 class Employer(Resource):
@@ -310,7 +306,7 @@ class EmployerList(Resource):
         return "Not Implemented", 501
 
     def get(self):
-        return "Forbidden", 403
+        return "Not Implemented", 501
 
 
 #routes

@@ -159,7 +159,6 @@ class DataProtection(RegisterBase):
                 'registration_date': self.registration_date.isoformat(),
         }
 
-
 class Employer(RegisterBase):
     """
     A list of employers registered with HMRC
@@ -176,6 +175,5 @@ class Employer(RegisterBase):
                 'type_uri': self.type_uri,
                 'registration_date': self.registration_date.isoformat(),
         }
-
 
 registry_classes = [Person, Licence, List, Organisation, Notice, Amenity, Address, Area, DataProtection, Employer]
