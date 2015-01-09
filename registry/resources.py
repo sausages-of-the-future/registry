@@ -203,22 +203,115 @@ class OrganisationList(Resource):
         #this would be gov only, for a particular user
         self.parser.add_argument('name', required=True, location='json', help="An organisaiton must have a name")
         self.parser.add_argument('organisation_type', required=True, location='json', help="An organisaiton must type")
-        self.parser.add_argument('activities', location='json')
+        self.parser.add_argument('activities',  location='json')
+        self.parser.add_argument('register_data', type=inputs.boolean, location='json')
+        self.parser.add_argument('register_employer', type=inputs.boolean,location='json')
+        self.parser.add_argument('register_construction', type=inputs.boolean, location='json')
+
         args = self.parser.parse_args()
+
+        from flask import current_app
+        current_app.logger.info('GOT THE FOLLOWING %s' % args)
 
         organisation = registers.Organisation()
         organisation.name = args['name']
         organisation.organisation_type = args['organisation_type']
         organisation.activities = args['activities']
         organisation.created_at = datetime.now()
+
         organisation.directors.append(request.oauth.user.person_uri)
+        # store the name and create directorship record from Person
+        # to the organisation?
+
+        register_data = args['register_data']
+        register_employer = args['register_employer']
+
+        organisation.register_construction = args['register_construction']
         # alternatively store person resource name?
+
+        #TODO save record to DataProtection and Employers Register if
+        # register_data and register_employer are true
+        # maybe store link from org to data protection registration record
+        # as well instead of boolean above?
 
         try:
             organisation.save()
-        except ValidationError:
+
+            if register_data:
+                data_protection = registers.DataProtection()
+                data_protection.organisation_uri = organisation.uri
+                data_protection.registration_date = datetime.now()
+                data_protection.save()
+                organisation.register_data = data_protection.uri
+                organisation.save()
+
+            if register_employer:
+                employer_registration = registers.Employer()
+                employer_registration.organisation_uri = organisation.uri
+                employer_registration.registration_date = datetime.now()
+                employer_registration.save()
+                organisation.register_employer = employer_registration.uri
+                organisation.save()
+
+        except ValidationError as e:
+            current_app.logger.info('WAT %s' % e)
             return "Failed", 500
         return organisation.uri, 201
+
+
+class DataProtection(Resource):
+
+    def options(self):
+        pass
+
+    def put(self):
+        return "Forbidden", 403
+
+    def delete(self):
+        return "Forbidden", 403
+
+    def get(self, _id):
+        return mongo_get_or_abort(_id, registers.DataProtection).to_dict()
+
+
+class DataProtectionList(Resource):
+
+    def options(self):
+        pass
+
+    def post(oauth, self):
+        return "Not Implemented", 501
+
+    def get(self):
+        return "Forbidden", 403
+
+
+class Employer(Resource):
+
+    def options(self):
+        pass
+
+    def put(self):
+        return "Forbidden", 403
+
+    def delete(self):
+        return "Forbidden", 403
+
+    def get(self, _id):
+        return mongo_get_or_abort(_id, registers.Employer).to_dict()
+
+
+class EmployerList(Resource):
+
+    def options(self):
+        pass
+
+    def post(oauth, self):
+        return "Not Implemented", 501
+
+    def get(self):
+        return "Forbidden", 403
+
 
 #routes
 api.add_resource(About, '/about')
@@ -230,3 +323,7 @@ api.add_resource(List, '/lists/<string:_id>')
 api.add_resource(ListList, '/lists')
 api.add_resource(OrganisationList, '/organisations')
 api.add_resource(Organisation, '/organisations/<string:_id>')
+api.add_resource(DataProtectionList, '/dataprotection')
+api.add_resource(DataProtection, '/dataprotection/<string:_id>')
+api.add_resource(EmployerList, '/employers')
+api.add_resource(Employer, '/employers/<string:_id>')
