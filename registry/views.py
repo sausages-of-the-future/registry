@@ -26,7 +26,6 @@ def choose_provider():
     form = forms.ChooseProviderForm()
     return render_template('choose-provider.html', form=form, next=next_)
 
-
 @app.route('/signin', methods=['GET', 'POST'])
 def login():
     provider = request.args.get('provider', None)
@@ -46,12 +45,10 @@ def login():
 
     return render_template('login.html', form=form, failed=failed, provider=provider)
 
-
 @app.route('/export')
 @login_required
 def export():
     return render_template('export.html')
-
 
 @app.route('/history')
 @login_required
@@ -60,15 +57,17 @@ def history():
     log = auth.AuthUserLog.objects(user=user)
     return render_template('history.html', log=log)
 
-
-@app.route('/service-catalogue')
+@app.route('/services')
 def service_catalogue():
     log = auth.AuthClientLog.objects.all()
     clients = auth.AuthClient.objects.all()
     return render_template('service-catalogue.html', clients=clients, log=log)
 
+@app.route('/access')
+def access():
+    return render_template('access.html')
 
-@app.route('/registry-catalogue')
+@app.route('/registries')
 def registry_catalogue():
     registries = []
     for cls in registers.registry_classes:

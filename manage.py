@@ -5,6 +5,9 @@ from datetime import datetime
 import os
 import json
 
+def resolve_choice(value):
+    return value
+
 import_dir = '%s/import-data' % os.path.dirname(os.path.abspath(__file__))
 
 class RegisterService(Command):
@@ -16,7 +19,7 @@ class RegisterService(Command):
         scopes = []
         service_name = prompt('Service name')
         service_description = prompt('Description')
-        service_organisation_type = prompt_choices('Organisation type', ['central government', 'local government', 'devolved government', 'non-profit', 'commercial']) 
+        service_organisation_type = prompt_choices(name='Organisation type', resolve=resolve_choice, choices=['central government', 'local government', 'devolved government', 'non-profit', 'commercial']) 
         redirect_uri = prompt('OAuth redirect URI')
         for scope in registers.avaliable_scopes:
             if prompt_bool("Register for %s (%s)?" % (scope, registers.avaliable_scopes[scope].lower())):
