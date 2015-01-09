@@ -87,20 +87,32 @@ class ImportData(Command):
 class CreateUser(Command):
     """
     Create an Auth user and a Person (which are intentionally seperate things),
-    then create an association between them
+    then create an asociation between them
     """
     def run(self):
+        full_name = prompt('Full name')
         email = prompt('User email')
         password = prompt_pass('User password')
         born_at = prompt('Date of birth eg 1978-05-01')
 
         person = registers.Person()
         person.born_at = datetime.strptime(born_at, '%Y-%m-%d')
+        person.full_name = full_name
         person.save()
 
         user = auth.AuthUser.create_user(email, password)
         user.person_uri = person.uri
         user.save()
+
+
+class DeleteObject(Command):
+    """
+    Deletes the object in db for a give mongo object id
+    """
+    def run(self):
+        object_id = prompt('Object ID')
+        object = registers.RegisterBase.objects.filter(id=object_id)[0]
+        object.delete()
 
 #register commands
 manager = Manager(app)
@@ -110,6 +122,7 @@ manager.add_command('reset-all', ResetAll())
 manager.add_command('create-user', CreateUser())
 manager.add_command('list-clients', ListClients())
 manager.add_command('import-data', ImportData())
+manager.add_command('delete-object', DeleteObject())
 
 if __name__ == "__main__":
     manager.run()

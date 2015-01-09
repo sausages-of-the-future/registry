@@ -1,6 +1,17 @@
 from registry import app
 from voluptuous import Schema
-from mongoengine import StringField, DateTimeField, DictField, PolygonField, ListField, PointField, Document, BooleanField, URLField
+from mongoengine import (
+    StringField,
+    DateTimeField,
+    DictField,
+    PolygonField,
+    ListField,
+    PointField,
+    Document,
+    BooleanField,
+    URLField,
+    BooleanField
+)
 
 avaliable_scopes = {
     'person:view': 'Permission to person ID and date of birth',
@@ -31,9 +42,10 @@ class Person(RegisterBase):
     """
     _slug = 'people'
     born_at = DateTimeField()
+    full_name = StringField()
 
     def to_dict(self):
-        return {'born_at': self.born_at.isoformat()}
+        return {'born_at': self.born_at.isoformat(), 'full_name': self.full_name}
 
 class Organisation(RegisterBase):
     """
@@ -44,13 +56,21 @@ class Organisation(RegisterBase):
     organisation_type = StringField(required=True)
     activities = StringField()
     created_at = DateTimeField()
+    directors = ListField()
+    register_data = URLField()
+    register_employer = URLField()
+    register_construction = BooleanField()
 
     def to_dict(self):
         return {
                 'uri': self.uri,
                 'name': self.name,
                 'activities': self.activities,
-                'organisation_type': self.organisation_type
+                'organisation_type': self.organisation_type,
+                'directors' : self.directors,
+                'register_data' : self.register_data,
+                'register_employer' : self.register_employer,
+                'register_construction' : self.register_construction
                 }
 
 class Notice(RegisterBase):
@@ -122,4 +142,38 @@ class Licence(RegisterBase):
                 'ends_at': self.ends_at.isoformat()
                 }
 
-registry_classes = [Person, Licence, List, Organisation, Notice, Amenity, Address, Area]
+class DataProtection(RegisterBase):
+    """
+    A list of organisation that collects and holds data about individuals
+    """
+    _slug = 'dataprotection'
+
+    organisation_uri = URLField(required=True)
+    registration_date = DateTimeField(required=True)
+
+    def to_dict(self):
+        return {
+                'uri': self.uri,
+                'organisation_uri': self.organisation_uri,
+                'type_uri': self.type_uri,
+                'registration_date': self.registration_date.isoformat(),
+        }
+
+class Employer(RegisterBase):
+    """
+    A list of employers registered with HMRC
+    """
+    _slug = 'employers'
+
+    organisation_uri = URLField(required=True)
+    registration_date = DateTimeField(required=True)
+
+    def to_dict(self):
+        return {
+                'uri': self.uri,
+                'organisation_uri': self.organisation_uri,
+                'type_uri': self.type_uri,
+                'registration_date': self.registration_date.isoformat(),
+        }
+
+registry_classes = [Person, Licence, List, Organisation, Notice, Amenity, Address, Area, DataProtection, Employer]
