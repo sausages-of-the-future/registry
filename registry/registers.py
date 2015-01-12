@@ -47,6 +47,22 @@ class Person(RegisterBase):
     def to_dict(self):
         return {'born_at': self.born_at.isoformat(), 'full_name': self.full_name}
 
+class Visa(RegisterBase):
+    """
+    A list of visas issued to people
+    """
+    _slug = 'visas'
+    issued_at = DateTimeField()
+    expires_at = DateTimeField()
+    person_uri = URLField(required=True)
+    visa_type = StringField()
+
+    def to_dict(self):
+        return {
+            'issued_at': self.issued_at.isoformat(),
+            'expires_at': self.expires_at.isoformat()
+            }
+
 class Organisation(RegisterBase):
     """
     A list of organsiations (companies, charities, trade unions, political parties)
