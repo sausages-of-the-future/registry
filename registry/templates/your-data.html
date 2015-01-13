@@ -1,36 +1,38 @@
 {% extends "base.html" %}
-{% block title %}Your data{% endblock%}
+{% block title %}Your data{% endblock %}
+{% block header_title %}Your data{% endblock %}
 {% block content %}
   <div class="row">
     <div class="small-12 columns">
-      <h1>Your data</h1>
-      <p>
-        This page lists the services that have permission to access your data and 
-        the access history for your data.
-      </p>
-      <h2>Services with access</h2>
+    <h3>Services with access to your data</h3>
       {% if tokens %}
         <form id="form_id" action="" method="post">
           <table>
             <thead>
               <tr>
-                <th>Name</th>
-                <th>Persmissions</th>
-                <th>&nbsp;</th>
+                <th>Service name</th>
+                <th>Provided by</th>
+                <th>Permissions</th>
+                <!-- <th>&nbsp;</th> -->
               </tr>
             </thead>
             {% for token in tokens %}
               <tr>
-                <td>{{token.client.name}}</td>
+                <td>
+                  {{token.client.name}}
+                </td>
+                <td>
+                  <span>{{token.client.organisation_type}}</span>
+                </td>
                 <td>
                   <ul>
                     {% for scope in token.scopes %}
-                      <li>{{scope}}</li>
+                      <li>{{scope|format_scope}}</li>
                     {% endfor %}
                   </ul>
                 </td>
-                <td><button type="submit" value="{{token.id}}" name="revoke" class="button tiny alert">Revoke</button></td>
-              </tr>
+<!--                 <td><button type="submit" value="{{token.id}}" name="revoke" class="button tiny alert">Revoke</button></td>
+              </tr> -->
             {% endfor %}
           </table>
         </form>
@@ -38,7 +40,7 @@
         <p>There are no authorized apps.</p>
       {% endif %}
 
-      <h2>Access history</h2>
+      <h3>Access history</h3>
       {% if log %}
         <table>
           <tr>
@@ -56,7 +58,14 @@
         <p>There is no history to show</p>
       {% endif %}
 
-      <h2>Export your data</h2>
+      <h3>Export your data</h3>
+      <p>
+        You can request a download of all your data held by registries.
+        The process will require some additional security steps.
+      </p>
+      <p>
+        <a href="#" class="button expand">Get started</a>
+      </p>
 
 
     </div>
