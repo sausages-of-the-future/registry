@@ -2,7 +2,7 @@
 {% block title %}Data Protection{% endblock%}
 {% block content %}
   <p>reg date: {{ data.registration_date }}</p>
-  <p>org name: not here yet</p>
+  <p>org name: {{ data.organisation_uri }}</p>
   <p>reg id: {{ data.uri.split('/')[-1] }}</p>
 {% endblock %}
 
