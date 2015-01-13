@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block title %}Data Protection{% endblock %}
-{% block header_title %}Lists and notices Registry{% endblock %}
+{% block header_title %}Lists and Notices Registry{% endblock %}
 {% block content %}
     <div class="row">
       <div class="small-12 columns">
@@ -8,16 +8,22 @@
           <h3>Official list</h3>
           <h4>{{ data.uri.split('/')[-1] }}</h4>
           <hr/>
-          <dl>
-            <dt>Registered organisation / person:</dt>
-            <dd><a href="{{ data.organisation_uri }}">{{ data.organisation_uri }}</a></dd>
-            <dt>Registration date:</dt>
-            <dd>{{ data.registration_date|format_date }}</dd>
-          </dl>
+          <ul>
+            {% for item in data.list_data %}
+              <li>
+                <dl>
+                  {% for k, v in item.items() %}  
+                    <dt>{{k}}: </dt>
+                    <dd>{{v}}</dd>
+                  {% endfor %}
+                </dl>
+              </li>
+            {% endfor %}
+          </ul>
       </div>
       <p>
-        This entry is held in the <a href="#">Data Protection register</a> which is 
-        maintained by the <a href="#">Data Protection Registry</a>
+        This entry is held in the <a href="#">Official Lists register</a> which is 
+        maintained by the <a href="#">Lists and Notices Registry</a>.
       </p>
     </div>
   </div>

@@ -112,7 +112,7 @@ class List(RegisterBase):
     list_data = ListField(DictField())
 
     def to_dict(self):
-        return {'uri': self.uri, 'name': self.name, 'list_data': self.list_data}
+        return {'uri': self.uri, 'name': self.name, 'list_data': self.list_data, 'slug': self._slug}
 
 class Address(RegisterBase):
     """

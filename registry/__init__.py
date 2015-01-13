@@ -29,7 +29,6 @@ db = MongoEngine(app)
 #app.logger.addHandler(fh)
 #app.logger.addHandler(ch)
 
-
 #login
 login_manager = LoginManager(app)
 login_manager.login_view = "%s/choose-provider" % app.config['BASE_URL']
