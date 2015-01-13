@@ -232,7 +232,10 @@ class OrganisationList(Resource):
         try:
             organisation.save()
 
-            #if relevant create links to DataProtection and Employers Register
+            # if relevant create links to DataProtection and Employers Register
+            # in fact should we just store org name on register side of thing
+            # and let the org record point to data register item?
+            # same applies to person name in directorship
             if register_data:
                 data_protection = registers.DataProtection()
                 data_protection.organisation_uri = organisation.uri

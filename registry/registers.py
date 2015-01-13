@@ -169,6 +169,7 @@ class DataProtection(RegisterBase):
 
     def to_dict(self):
         return {
+                'slug': self._slug,
                 'uri': self.uri,
                 'organisation_uri': self.organisation_uri,
                 'type_uri': self.type_uri,

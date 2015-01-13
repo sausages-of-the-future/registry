@@ -1,6 +1,6 @@
 import os
 import logging
-from flask import Flask
+from flask import Flask, make_response, render_template
 from flask.ext.mongoengine import MongoEngine
 from flask.ext import restful
 from flask_oauthlib.provider import OAuth2Provider
@@ -38,6 +38,13 @@ login_manager.login_view = "%s/choose-provider" % app.config['BASE_URL']
 api = restful.Api(app)
 api.decorators=[cors.crossdomain(origin='*', headers = "origin,content-type,accept,authorization")]
 
+@api.representation('text/html')
+def output_html(data, code, headers):
+    template = '%s.html' % data['slug']
+    resp = make_response(render_template(template, data=data))
+    for key, val in headers.items():
+        resp.headers[key] = value
+    return resp
 #oauth
 oauth = OAuth2Provider(app)
 
