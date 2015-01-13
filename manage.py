@@ -19,7 +19,7 @@ class RegisterService(Command):
         scopes = []
         service_name = prompt('Service name')
         service_description = prompt('Description')
-        service_organisation_type = prompt_choices(name='Organisation type', resolve=resolve_choice, choices=['central government', 'local government', 'devolved government', 'non-profit', 'commercial']) 
+        service_organisation_type = prompt_choices(name='Organisation type', resolve=resolve_choice, choices=['central government', 'local government', 'devolved government', 'non-profit', 'commercial'])
         redirect_uri = prompt('OAuth redirect URI')
         for scope in registers.avaliable_scopes:
             if prompt_bool("Register for %s (%s)?" % (scope, registers.avaliable_scopes[scope].lower())):
@@ -114,6 +114,26 @@ class DeleteObject(Command):
         object = registers.RegisterBase.objects.filter(id=object_id)[0]
         object.delete()
 
+class DeleteObjectByType(Command):
+    """
+    Deletes the object in db for a give register type - be careful
+    """
+
+    type_dict = {'organisations' : registers.Organisation, 'licences' : registers.Licence} # add more as needed
+
+    def run(self):
+        object_type = prompt("Object type (e.g. organisation)").lower()
+        type_class = self.type_dict.get(object_type)
+        if not type_class:
+            print("Can't find type to delete %s" % type_class)
+        else:
+            objects = type_class.objects.all()
+            for object in objects:
+                print("Deleting %s" % object.id)
+                object.delete()
+            else:
+                print("No objects of type %s found" % object_type)
+
 #register commands
 manager = Manager(app)
 manager.add_command('register-service', RegisterService())
@@ -123,6 +143,7 @@ manager.add_command('create-user', CreateUser())
 manager.add_command('list-clients', ListClients())
 manager.add_command('import-data', ImportData())
 manager.add_command('delete-object', DeleteObject())
+manager.add_command('delete-object-type', DeleteObjectByType())
 
 if __name__ == "__main__":
     manager.run()
