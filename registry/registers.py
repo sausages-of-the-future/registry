@@ -24,7 +24,7 @@ avaliable_scopes = {
 
 class  RegisterBase(Document):
     meta = {'allow_inheritance': True}
-    _slug = ''
+    _slug = 'register_base'
 
     type_uri = URLField()
 
@@ -33,7 +33,7 @@ class  RegisterBase(Document):
         return "%s/%s/%s" % (app.config['BASE_URL'], self._slug, str(self.id))
 
     def to_dict(self):
-        raise NotImplementedError
+        return {'slug' : self._slug}
 
 #Registers
 class Person(RegisterBase):
