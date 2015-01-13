@@ -1,6 +1,6 @@
 from flask import render_template, request, redirect, url_for, session
 from flask.ext.login import login_required, login_user, logout_user, current_user
-
+import dateutil.parser
 from registry import app, auth, oauth, login_manager, registers, forms
 from registry.auth import AuthClient, AuthToken, AuthUser
 #from mongoengine import DoesNotExist
@@ -14,6 +14,11 @@ def format_scope_filter(value):
             result = v
     return result
 
+@app.template_filter('format_date')
+def format_date_filter(value):
+    date = dateutil.parser.parse(str(value))
+    return date.strftime('%A %d %B')
+    
 @app.route('/')
 def index():
     return render_template('index.html')

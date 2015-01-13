@@ -1,8 +1,25 @@
 {% extends "base.html" %}
-{% block title %}Data Protection{% endblock%}
+{% block title %}Data Protection{% endblock %}
+{% block header_title %}Data Protection Registry{% endblock %}
 {% block content %}
-  <p>reg date: {{ data.registration_date }}</p>
-  <p>org name: {{ data.organisation_uri }}</p>
-  <p>reg id: {{ data.uri.split('/')[-1] }}</p>
-{% endblock %}
+    <div class="row">
+      <div class="small-12 columns">
+        <div class="panel thing">
+          <h3>Data protection</h3>
+          <h4>{{ data.uri.split('/')[-1] }}</h4>
+          <hr/>
+          <dl>
+            <dt>Registered organisation / person:</dt>
+            <dd><a href="{{ data.organisation_uri }}">{{ data.organisation_uri }}</a></dd>
+            <dt>Registration date:</dt>
+            <dd>{{ data.registration_date|format_date }}</dd>
+          </dl>
+      </div>
 
+      <p>
+        This entry is held in the <a href="#">Data Protection register</a> which is 
+        maintained by the <a href="#">Data Protection Registry</a>
+      </p>
+    </div>
+  </div>
+{% endblock %}
