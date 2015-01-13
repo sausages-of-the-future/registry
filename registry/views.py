@@ -121,7 +121,6 @@ def your_data():
 def access_token():
     return None
 
-
 @app.route('/oauth/authorize', methods=['GET', 'POST'])
 @oauth.authorize_handler
 @login_required
