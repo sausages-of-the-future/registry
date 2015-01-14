@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Register{% endblock%}
+{% block content %}
+  <div class="row">
+      <div class="small-12 columns">
+        <div class="panel thing">
+            {% for key, val in data.items() %}
+                <p>{{key}} : {{val}}</p>
+            {% endfor %}
+        </div>
+      </div>
+    </div>
+{% endblock %}

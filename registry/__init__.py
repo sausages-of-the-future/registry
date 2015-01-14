@@ -39,7 +39,7 @@ api.decorators=[cors.crossdomain(origin='*', headers = "origin,content-type,acce
 
 @api.representation('text/html')
 def output_html(data, code, headers):
-    template = '%s.html' % data.get('slug', 'register_base')
+    template = '%s.html' % data.get('slug', 'registerbase')
     resp = make_response(render_template(template, data=data))
     for key, val in headers.items():
         resp.headers[key] = value
