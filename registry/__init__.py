@@ -52,5 +52,5 @@ from . import resources
 from . import views
 from . import auth
 
-# from messenger import Connector
-# locator = Connector(app)
+from messenger import Connector
+connector = Connector(app)
