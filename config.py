@@ -8,6 +8,7 @@ class Config(object):
     MONGODB_DB = os.environ['MONGODB_DB']
     MONGODB_HOST = os.environ['MONGODB_HOST']
     WWW_BASE_URL = os.environ['WWW_BASE_URL']
+    REDISCLOUD_URL = os.environ['REDISCLOUD_URL']
 
 class DevelopmentConfig(Config):
     DEBUG = True
