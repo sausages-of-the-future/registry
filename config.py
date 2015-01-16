@@ -11,6 +11,7 @@ class Config(object):
     MONGODB_HOST = os.environ['MONGODB_HOST']
     WWW_BASE_URL = os.environ['WWW_BASE_URL']
     PERMANENT_SESSION_LIFETIME = timedelta(seconds=30)
+    REDISCLOUD_URL = os.environ['REDISCLOUD_URL']
 
 class DevelopmentConfig(Config):
     DEBUG = True

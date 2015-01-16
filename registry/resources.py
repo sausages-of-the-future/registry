@@ -207,11 +207,9 @@ class OrganisationList(Resource):
         self.parser.add_argument('register_data', type=inputs.boolean, location='json')
         self.parser.add_argument('register_employer', type=inputs.boolean,location='json')
         self.parser.add_argument('register_construction', type=inputs.boolean, location='json')
+        self.parser.add_argument('directors', location='json')
 
         args = self.parser.parse_args()
-
-        from flask import current_app
-        current_app.logger.info('GOT THE FOLLOWING %s' % args)
 
         organisation = registers.Organisation()
         organisation.name = args['name']
@@ -222,6 +220,19 @@ class OrganisationList(Resource):
         organisation.directors.append(request.oauth.user.person_uri)
         # store the name and create directorship record from Person
         # to the organisation?
+
+        #TODO - must be easier way for doing this in flask-restful
+        if args['directors']:
+            import ast
+            director_list = ast.literal_eval(args['directors'])
+            directors = [name.strip() for name in director_list]
+            for director in directors:
+            # create a new person for the moment
+                person = registers.Person()
+                person.born_at = datetime.strptime('1970-01-01', '%Y-%m-%d')
+                person.full_name = director
+                person.save()
+                organisation.directors.append(person.uri)
 
         register_data = args['register_data']
         register_employer = args['register_employer']
@@ -253,7 +264,7 @@ class OrganisationList(Resource):
                 organisation.save()
 
         except ValidationError as e:
-            current_app.logger.info('WAT %s' % e)
+            current_app.logger.info('exception %s' % e)
             return "Failed", 500
         return organisation.uri, 201
 
