@@ -1,4 +1,6 @@
 import os
+from datetime import timedelta
+
 class Config(object):
     DEBUG = False
     SECRET_KEY = os.environ['SECRET_KEY']
@@ -8,6 +10,7 @@ class Config(object):
     MONGODB_DB = os.environ['MONGODB_DB']
     MONGODB_HOST = os.environ['MONGODB_HOST']
     WWW_BASE_URL = os.environ['WWW_BASE_URL']
+    PERMANENT_SESSION_LIFETIME = timedelta(seconds=30)
 
 class DevelopmentConfig(Config):
     DEBUG = True

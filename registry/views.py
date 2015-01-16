@@ -18,7 +18,7 @@ def format_scope_filter(value):
 def format_date_filter(value):
     date = dateutil.parser.parse(str(value))
     return date.strftime('%A %d %B')
-    
+
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -26,8 +26,6 @@ def index():
 @app.route('/choose-provider', methods=['GET', 'POST'])
 def choose_provider():
     next_ = request.args.get('next', None)
-    # next_ = next_.replace('http%', 'https%') #hack url to https
-    # next_ = next_.replace('http:', 'https:') #hack url to https
     form = forms.ChooseProviderForm()
     return render_template('choose-provider.html', form=form, next=next_)
 
@@ -99,7 +97,6 @@ def logout():
     logout_user()
     return redirect(url_for('index'))
 
-
 @app.route('/your-data', methods=['GET', 'POST'])
 @login_required
 def your_data():
@@ -120,7 +117,7 @@ def your_data():
 @oauth.token_handler
 def access_token():
     return None
-
+ 
 @app.route('/oauth/authorize', methods=['GET', 'POST'])
 @oauth.authorize_handler
 @login_required

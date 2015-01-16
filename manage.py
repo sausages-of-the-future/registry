@@ -84,6 +84,12 @@ class ImportData(Command):
             list_.list_data = job_list['jobs']
             list_.save()
 
+        #Amenities - libraries
+        with open("%s/libraries.json" % import_dir, 'rb') as json_file:
+            libraries = json.loads(json_file.read().decode(encoding='UTF-8'))
+
+
+
 class CreateUser(Command):
     """
     Create an Auth user and a Person (which are intentionally seperate things),
