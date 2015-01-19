@@ -208,6 +208,7 @@ class OrganisationList(Resource):
         self.parser.add_argument('register_employer', type=inputs.boolean,location='json')
         self.parser.add_argument('register_construction', type=inputs.boolean, location='json')
         self.parser.add_argument('directors', location='json')
+        self.parser.add_argument('full_address', location='json')
 
         args = self.parser.parse_args()
 
@@ -239,6 +240,10 @@ class OrganisationList(Resource):
 
         organisation.register_construction = args['register_construction']
         # alternatively store person resource name?
+
+        # stick address on here temporarily until we have address data
+        organisation.full_address = args['full_address']
+
 
         try:
             organisation.save()
@@ -323,6 +328,65 @@ class EmployerList(Resource):
         return "Not Implemented", 501
 
 
+class Notice(Resource):
+
+    def options(self):
+        pass
+
+    def put(self):
+        return "Forbidden", 403
+
+    def delete(self):
+        return "Forbidden", 403
+
+    def get(self, _id):
+        return mongo_get_or_abort(_id, registers.Notice).to_dict()
+
+
+class NoticeList(Resource):
+
+    def __init__(self):
+        self.parser = reqparse.RequestParser()
+        super(NoticeList, self).__init__()
+
+    def options(self):
+        pass
+
+    def post(self):
+
+        self.parser.add_argument('licences', location='json', help="One or more licences applied for")
+
+        self.parser.add_argument('subject_uri', type=inputs.url, location='json', help="Subject of licence application")
+
+        self.parser.add_argument('licence_address', type=str, location='json', help="Address for which the licence is applied for")
+
+        args = self.parser.parse_args()
+
+        #TODO again work out how to do this property with flask restful
+        import ast
+        licences = ast.literal_eval(args['licences'])
+
+        for license in licences:
+            notice = registers.Notice()
+            notice.title = license['licence_type']
+            notice.detail = "Application for licence type %s at %s" % (notice.title, args['licence_address'])
+            notice.name = license['licence_type']
+            notice.issued_by_uri = current_app.config.get('LOCALGOV_BASE_URL', 'http://localgov.gov.local') #TODO make this more real based on postcode?
+            notice.subject_uri = args['subject_uri']
+            notice.created_at = datetime.now()
+            try:
+                notice.save()
+            except ValidationError as e:
+                current_app.logger.debug('exception %s' % e)
+                return "Internal server error", 500
+
+        return 'OK', 201
+
+    def get(self):
+        notices = registers.Notice.objects()
+        return [notice.to_dict() for notice in notices]
+
+
 #routes
 api.add_resource(About, '/about')
 api.add_resource(Person, '/people/<string:_id>')
@@ -337,3 +401,5 @@ api.add_resource(DataProtectionList, '/dataprotection')
 api.add_resource(DataProtection, '/dataprotection/<string:_id>')
 api.add_resource(EmployerList, '/employers')
 api.add_resource(Employer, '/employers/<string:_id>')
+api.add_resource(NoticeList, '/notices')
+api.add_resource(Notice, '/notices/<string:_id>')
