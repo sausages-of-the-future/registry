@@ -2,15 +2,16 @@
 {% extends "base.html" %}
 {% block title %}Choose a verify provider{% endblock%}
 {% block content %}
-  <div class="row">
+  <div class="row verify">
     <div class="small-12 columns">
-      <h1>Choose a verify provider</h1>
-      <p>
+      <img src="{{url_for('static', filename='images/verify_white.png')}}" height="80px" />
+      <h1>Verify your identity</h1>
+      <a href="{{url_for('login')}}?next={{next|urlencode}}&provider=vouchme" class="button expand provider">Vouch Me</a> 
+      <a href="{{url_for('login')}}?next={{next|urlencode}}&provider=idat" class="button expand provider">IDAT</a>
+      <p class="hint">
         You can use a different providers to verify your identity to different services
         and different registers.
       </p>
-      <a href="{{url_for('login')}}?next={{next|urlencode}}&provider=vouchme" class="button expand">Vouch Me</a> 
-      <a href="{{url_for('login')}}?next={{next|urlencode}}&provider=idat" class="button expand">IDAT</a> 
     </div>
   </div>
 {% endblock %}
