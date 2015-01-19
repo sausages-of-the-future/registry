@@ -76,6 +76,7 @@ class Organisation(RegisterBase):
     register_data = URLField()
     register_employer = URLField()
     register_construction = BooleanField()
+    full_address = StringField()
 
     def to_dict(self):
         return {
@@ -86,22 +87,33 @@ class Organisation(RegisterBase):
                 'directors' : self.directors,
                 'register_data' : self.register_data,
                 'register_employer' : self.register_employer,
-                'register_construction' : self.register_construction
+                'register_construction' : self.register_construction,
+                'full_address': self.full_address
                 }
 
 class Notice(RegisterBase):
     """
-    A list of notices (jobs, apprenticeships, product recalls, medical recalls, tenders, parking suspensions)
+    A list of notices (jobs, apprenticeships, product recalls, medical recalls, tenders, parking suspensions, licencing applications)
     """
+    _slug = 'notices'
+
     title = StringField(required=True)
     detail = StringField(required=True)
     created_at = DateTimeField(required=True)
     expires_at = DateTimeField()
+    issued_by_uri = URLField(required=True)
+    subject_uri = URLField(required=True)
 
     def to_dict(self):
-        return {'name': self.name,
-                'created_at': self.born_at.isoformat()
-               }
+        return {'slug': self._slug,
+                'title': self.detail,
+                'detail': self.detail,
+                'name': self.name,
+                'created_at': self.created_at.isoformat(),
+                'expires_at': self.expires_at.isoformat(),
+                'issued_by_uri': self.issued_by_uri,
+                'subject_uri': self.subject_uri
+        }
 
 class List(RegisterBase):
     """
