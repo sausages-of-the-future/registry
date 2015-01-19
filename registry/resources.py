@@ -362,7 +362,7 @@ class NoticeList(Resource):
 
         args = self.parser.parse_args()
 
-        #TODO again work out how to do this property with flask restful
+        #TODO again work out how to do this properly with flask restful
         import ast
         licences = ast.literal_eval(args['licences'])
 

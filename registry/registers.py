@@ -104,13 +104,13 @@ class Notice(RegisterBase):
     issued_by_uri = URLField(required=True)
     subject_uri = URLField(required=True)
 
+    #TODO set expiry date
+
     def to_dict(self):
         return {'slug': self._slug,
                 'title': self.detail,
                 'detail': self.detail,
-                'name': self.name,
                 'created_at': self.created_at.isoformat(),
-                'expires_at': self.expires_at.isoformat(),
                 'issued_by_uri': self.issued_by_uri,
                 'subject_uri': self.subject_uri
         }
