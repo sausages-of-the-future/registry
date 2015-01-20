@@ -356,23 +356,30 @@ class NoticeList(Resource):
 
         self.parser.add_argument('licences', location='json', help="One or more licences applied for")
 
-        self.parser.add_argument('subject_uri', type=inputs.url, location='json', help="Subject of licence application")
+        self.parser.add_argument('subject_uri', type=inputs.url, location='json', help="URL of subject of licence application")
+
+        self.parser.add_argument('subject_name', type=str, location='json', help="Name of subject of licence application")
 
         self.parser.add_argument('licence_address', type=str, location='json', help="Address for which the licence is applied for")
 
         args = self.parser.parse_args()
 
+
+        current_app.logger.info('************ ARGS ARE %s' % args)
+
         #TODO again work out how to do this properly with flask restful
         import ast
         licences = ast.literal_eval(args['licences'])
 
-        for license in licences:
+        for licence in licences:
+
             notice = registers.Notice()
-            notice.title = license['licence_type']
-            notice.detail = "Application for licence type %s at %s" % (notice.title, args['licence_address'])
-            notice.name = license['licence_type']
+            notice.title = licence['licence_type']
+            notice.detail = args['licence_address']
+            notice.name = licence['licence_type']
             notice.issued_by_uri = current_app.config.get('LOCALGOV_BASE_URL', 'http://localgov.gov.local') #TODO make this more real based on postcode?
             notice.subject_uri = args['subject_uri']
+            notice.subject_name = args['subject_name']
             notice.created_at = datetime.now()
             try:
                 notice.save()

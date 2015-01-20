@@ -103,16 +103,18 @@ class Notice(RegisterBase):
     expires_at = DateTimeField()
     issued_by_uri = URLField(required=True)
     subject_uri = URLField(required=True)
+    subject_name = StringField(required=True)
 
     #TODO set expiry date
 
     def to_dict(self):
         return {'slug': self._slug,
-                'title': self.detail,
+                'title': self.title,
                 'detail': self.detail,
                 'created_at': self.created_at.isoformat(),
                 'issued_by_uri': self.issued_by_uri,
-                'subject_uri': self.subject_uri
+                'subject_uri': self.subject_uri,
+                'subject_name': self.subject_name
         }
 
 class List(RegisterBase):

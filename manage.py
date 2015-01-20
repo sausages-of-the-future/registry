@@ -125,7 +125,7 @@ class DeleteObjectByType(Command):
     Deletes the object in db for a give register type - be careful
     """
 
-    type_dict = {'organisations' : registers.Organisation, 'licences' : registers.Licence} # add more as needed
+    type_dict = {'organisations' : registers.Organisation, 'licences' : registers.Licence, 'notices': registers.Notice} # add more as needed
 
     def run(self):
         object_type = prompt("Object type (e.g. organisation)").lower()
