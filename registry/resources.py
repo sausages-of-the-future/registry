@@ -358,12 +358,14 @@ class NoticeList(Resource):
 
         self.parser.add_argument('subject_uri', type=inputs.url, location='json', help="URL of subject of licence application")
 
-        self.parser.add_argument('subject_name', type=inputs.url, location='json', help="Name of subject of licence application")
-
+        self.parser.add_argument('subject_name', type=str, location='json', help="Name of subject of licence application")
 
         self.parser.add_argument('licence_address', type=str, location='json', help="Address for which the licence is applied for")
 
         args = self.parser.parse_args()
+
+
+        current_app.logger.info('************ ARGS ARE %s' % args)
 
         #TODO again work out how to do this properly with flask restful
         import ast
