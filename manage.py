@@ -128,7 +128,7 @@ class DeleteObjectByType(Command):
     type_dict = {'organisations' : registers.Organisation, 'licences' : registers.Licence, 'notices': registers.Notice} # add more as needed
 
     def run(self):
-        object_type = prompt("Object type (e.g. organisation)").lower()
+        object_type = prompt("Object type (e.g. organisations, licences or notices)").lower()
         type_class = self.type_dict.get(object_type)
         if not type_class:
             print("Can't find type to delete %s" % type_class)
