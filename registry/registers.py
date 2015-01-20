@@ -14,7 +14,7 @@ from mongoengine import (
 )
 
 avaliable_scopes = {
-    'person:view': 'Permission to check your date of birth',
+    'person:view': 'Check your date of birth',
     'licence:view': 'View licences you hold',
     'licence:add': 'Issue a licence to you',
     'organisation:add': 'Create an organisation',
