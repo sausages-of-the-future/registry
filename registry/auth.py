@@ -7,7 +7,7 @@ from registry import app, oauth, login_manager
 from mongoengine import DoesNotExist, Document, StringField, BooleanField, URLField, ReferenceField, signals, DateTimeField
 from datetime import datetime, timedelta
 
-#Flask-OAuthLib funcitons
+#Flask-OAuthLib functions
 @login_manager.user_loader
 def load_user(user_id):
     try:
@@ -128,7 +128,7 @@ class AuthUser(Document):
         secret_and_password = app.config['SECRET_KEY'] + password
         hashed_password = hashlib.md5(secret_and_password.encode('utf-8')).hexdigest()
         try:
-            user = AuthUser.objects.get(email=email, password=hashed_password)
+            user = AuthUser.objects.get(email=email.lower(), password=hashed_password)
             return user
         except DoesNotExist:
             return False
