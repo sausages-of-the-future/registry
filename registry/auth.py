@@ -154,7 +154,7 @@ class AuthClient(Document):
         client.client_secret = uuid.uuid4().hex
         client._default_scopes = " ".join(scopes)
         client._redirect_uris = redirect_uri
-        clien.service_organisation_type = service_organisation_type
+        client.service_organisation_type = organisation_type
         client.save()
         return client
 
