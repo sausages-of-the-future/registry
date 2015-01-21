@@ -1,0 +1,13 @@
+{ "libraries": 
+    [
+        {
+            "name": "Brixton Library",
+            "latlng": [-0.11621475219726562,51.459248115975626]
+        },
+        {
+            "name": "South Lambeth Library",
+            "latlng": [-0.12419700622558592,51.480233648933336]
+        }
+
+    ]
+}
