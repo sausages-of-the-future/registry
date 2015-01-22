@@ -52,5 +52,10 @@ from . import resources
 from . import views
 from . import auth
 
+if 'SENTRY_DSN' in os.environ:
+    from raven.contrib.flask import Sentry
+    sentry = Sentry(app, dsn=os.environ['SENTRY_DSN'])
+
+
 from messenger import Connector
 connector = Connector(app)
