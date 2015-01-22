@@ -386,7 +386,9 @@ class NoticeList(Resource):
         return 'OK', 201
 
     def get(self):
-        notices = registers.Notice.objects()
+        self.parser.add_argument('max', type=int)
+        args = self.parser.parse_args()
+        notices = registers.Notice.objects[:args['max']]
         return [notice.to_dict() for notice in notices]
 
 
