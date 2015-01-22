@@ -10,34 +10,20 @@
 {% block content %}
   <div class="row">
     <div class="small-12 columns">
-       {% if registries %}
-        {% for registry in registries %}
-          <ul class="info-list">
-            <li>
-              <h2>{{registry.name}}</h2>
-              <p>
-                {% if registry.description %}
-                  {{registry.description}}
-                {% else %}
-                  No description
-                {% endif %}
-              </p>
-              <h4>Properties:</h4>
-              <ul>
-                {% if registry.properties %}
-                  {% for property in registry.properties %}
-                    <li>{{property}}</li>
-                  {% endfor %}
-                {% else %}
-                  <li>No properties</li>
-                {% endif %}
-              </ul>
-            </li>
-          </ul>
-        {% endfor %}
-      {% else %}
-        <p>There are no registries.</p>
-      {% endif %}
+      <h3>Notices Registry</h3>
+
+      <h3>Organisations Registry</h3>
+
+      <h3>Licensing Registry</h3>
+
+      <h3>Geographies Registry</h3>
+
+      <h3>Environment Registry</h3>
+
+      <h3>Finance Registry</h3>
+
+      <h3>Driving Registry</h3>
+
     </div>
   </div>
 {% endblock %}

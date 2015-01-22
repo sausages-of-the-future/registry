@@ -75,7 +75,6 @@ def registry_catalogue():
     registries = []
     return render_template('registry-catalogue.html', registries=registries)
 
-
 @app.route('/signout')
 def logout():
     logout_user()
