@@ -1,0 +1,167 @@
+/* Typography */
+body, h1, h2,h3, h4, h5 .button, table, label {
+  /*font-family: 'Roboto Slab', serif;*/
+  font-family: 'nta', Arial, Helvetica;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight:bold;
+}
+
+
+a {
+  color:#005EA5;
+}
+
+p, dl, ul, label {
+  font-size:1.2rem;
+}
+
+table {
+  width:100%;
+}
+
+.button {
+  background:#2372B5;
+  border-bottom:5px solid #255c8a;
+  font-family: 'nta', Arial, Helvetica!important;
+  font-weight:bold;
+  font-size: 1.35rem;
+  padding-bottom: 0.5rem;
+  padding-top: 0.75rem;
+}
+
+.button:hover, .button:focus {
+  background-color:#2372B5;
+}
+
+.header {
+  margin-bottom: 10px;
+}
+
+.top-bar #header_crest {
+  height: 45px; 
+  margin-top: -3px;
+  margin-right: 7px;
+  margin-left:4px;
+}
+
+.top-bar.home h1 {
+  text-align:left;
+}
+
+.top-bar h1 {
+  font-size: 1.35rem;
+  text-align:center;
+  margin-top:3px;
+}
+
+.top-bar a {
+  text-decoration:none;
+  color:#fff;
+}
+
+.top-bar h1.title {
+  padding-top: 7px;
+  font-size: 1.35rem;
+}
+
+
+.header, .header .top-bar {
+  background:#2372b5;
+  font-family:Helvetica, Arial, sans-serif;
+}
+
+.header .top-bar h1 {
+  font-family:Helvetica, Arial, sans-serif;
+  font-weight:normal;
+}
+
+/* things in registers*/
+.thing {
+  background:#eceded;
+  border:none;
+  border-radius: 0;
+  margin-top:1rem;
+}
+
+.thing, .thing h3, .thing h4 {
+  font-family:monospace;
+  font-weight:bold;
+  font-weight:normal!important;
+}
+
+.thing h4 {
+  border-bottom:solid 2px #333;
+  padding-bottom:1rem;
+}
+
+.thing h3 {
+  font-weight:bold;
+  padding-right:1rem;
+}
+
+.thing .thing-footer {
+  border-top:solid 2px #333;
+  padding-top:3rem;
+  padding-left:200px;
+  background:url(../images/crest_grey.png) no-repeat 0 10px;
+  min-height:160px;
+}
+
+/* Verify */
+
+.verify h1 {
+  padding:0;
+  margin:1rem 0 1rem 0;
+  color:#fff;
+  text-align:center;
+  clear:both;
+}
+
+.verify_logo_small {
+  float:right;
+  height: 100px;
+  right: -27px;
+  position: relative;
+  top: -5px;
+}
+
+.verify .button {
+  background-color: #fff;
+  color:#2373b6;
+  border-bottom-color: #164e7c;
+}
+
+.verify .button.provider {
+  text-align:left;
+  padding-left:1rem;
+}
+
+.verify p a {
+  color:#fff;
+  text-decoration:underline;
+}
+
+/*.verify .button.provider:after {
+  content: "❭";
+  float:right;
+  font-weight: bold;
+  padding-right:10px;
+}
+*/
+.verify .hint {
+  border:none;
+  text-align:center;
+}
+
+.verify .columns {
+  background:#2373b6;
+  color:#fff;
+  border:solid 15px #fff;
+  min-height:600px;
+}
+
+.verify .button-group li {
+ padding:3px;
+}

@@ -1,15 +1,15 @@
 {% extends "base.html" %}
 {% block title %}Registers{% endblock%}
+{% block header %}
+  <div class="header registry">
+    <nav class="top-bar" data-topbar>
+      <h1><img id="header_crest" src="{{url_for('static', filename='images/crest_white.png')}}"/> <a href="/">{% block header_title %}Registry catalogue {% endblock %}</a></h1>
+    </nav>
+  </div>
+{% endblock %}
 {% block content %}
   <div class="row">
     <div class="small-12 columns">
-      <h1>Registers</h1>
-      <p>
-        This is a list of the registers 
-        and the data held in each register. The list is automatically 
-        generated and <a href="#">independently audited</a> using <a href="">publically avaliable
-          tests</a>.
-      </p>
        {% if registries %}
         {% for registry in registries %}
           <ul class="info-list">

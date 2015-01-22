@@ -1,10 +1,16 @@
 {% extends "base.html" %}
 {% block title %}Services{% endblock%}
+{% block header %}
+  <div class="header registry">
+    <nav class="top-bar" data-topbar>
+      <h1><img id="header_crest" src="{{url_for('static', filename='images/crest_white.png')}}"/> <a href="/">{% block header_title %}Services catalogue {% endblock %}</a></h1>
+    </nav>
+  </div>
+{% endblock %}
 {% block content %}
   <div class="row">
     <div class="small-12 columns">
 
-      <h1>Services catalogue</h1>
       <dl class="tabs full-2" data-tab>
         <dd  id="services_tab" class="active">
           <a href="#services">Services</a>

@@ -21,7 +21,7 @@ def format_date_filter(value):
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return redirect(app.config['WWW_BASE_URL'])
 
 @app.route('/choose-provider', methods=['GET', 'POST'])
 def choose_provider():
@@ -73,22 +73,6 @@ def access():
 @app.route('/registries')
 def registry_catalogue():
     registries = []
-    for cls in registers.registry_classes:
-        properties = []
-        exclude = (
-            'MultipleObjectsReturned', 'id', 'DoesNotExist', 'objects', 'to_dict')
-        for property, value in list(vars(cls).items()):
-            if property.find('_') != 0 and property not in exclude:
-                properties.append(property)
-
-        for property, value in list(vars(registers.RegisterBase).items()):
-            if property.find('_') != 0 and property not in exclude:
-                properties.append(property)
-
-        registries.append(
-            {'name': cls.__name__, 'description': cls.__doc__, 'properties': properties})
-
-    registries = sorted(registries, key=lambda k: k['name'])
     return render_template('registry-catalogue.html', registries=registries)
 
 
