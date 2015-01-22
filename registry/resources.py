@@ -244,7 +244,6 @@ class OrganisationList(Resource):
         # stick address on here temporarily until we have address data
         organisation.full_address = args['full_address']
 
-
         try:
             organisation.save()
 

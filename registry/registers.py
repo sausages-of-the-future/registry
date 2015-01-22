@@ -20,6 +20,7 @@ avaliable_scopes = {
     'organisation:add': 'Create an organisation',
     'vehicle:view': 'View details of cars and other vehicles registered to you',
     'address:view': 'View your current address',
+    'income:view': 'View your PAYE income',
     }
 
 class  RegisterBase(Document):
