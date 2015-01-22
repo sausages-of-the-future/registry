@@ -363,9 +363,6 @@ class NoticeList(Resource):
 
         args = self.parser.parse_args()
 
-
-        current_app.logger.info('************ ARGS ARE %s' % args)
-
         #TODO again work out how to do this properly with flask restful
         import ast
         licences = ast.literal_eval(args['licences'])
@@ -383,7 +380,7 @@ class NoticeList(Resource):
             try:
                 notice.save()
             except ValidationError as e:
-                current_app.logger.debug('exception %s' % e)
+                current_app.logger.error('exception %s' % e)
                 return "Internal server error", 500
 
         return 'OK', 201
