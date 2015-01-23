@@ -60,9 +60,12 @@ class Visa(RegisterBase):
 
     def to_dict(self):
         return {
+            'slug': self.slug,
             'issued_at': self.issued_at.isoformat(),
-            'expires_at': self.expires_at.isoformat()
-            }
+            'expires_at': self.expires_at.isoformat(),
+            'person_uri': self.person_uri,
+            'visa_type': self.visa_type
+        }
 
 class Organisation(RegisterBase):
     """
@@ -208,4 +211,4 @@ class Employer(RegisterBase):
                 'registration_date': self.registration_date.isoformat(),
         }
 
-registry_classes = [Person, Licence, List, Organisation, Notice, Amenity, Address, Area, DataProtection, Employer]
+registry_classes = [Person, Licence, List, Organisation, Notice, Amenity, Address, Area, DataProtection, Employer, Visa]

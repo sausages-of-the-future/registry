@@ -140,6 +140,38 @@ class DeleteObjectByType(Command):
             else:
                 print("No objects of type %s found" % object_type)
 
+
+class GrantVisa(Command):
+    """
+    Grants a visa to a user
+    """
+
+    def run(self):
+        email = prompt('email of user to grant visa to')
+        visa_choices=[(1, 'Tier 1 (Entrepreneur) visa'),
+                        (2, 'Tier 2 (General) visa'),
+                            (3, 'Tier 5 (Temporary Worker)')]
+
+        choice = prompt_choices(name='Visa type', resolve=int, choices=visa_choices)
+
+        visa_type = visa_choices[choice-1][1]
+
+        person = auth.AuthUser.objects(email=email).first()
+
+        if not person:
+            print('No user found for email', email)
+            return
+
+        from datetime import datetime, timedelta
+
+        visa = registers.Visa()
+        visa.issued_at = datetime.now()
+        visa.expires_at = visa.issued_at + timedelta(weeks=52)
+        visa.person_uri = person.person_uri
+        visa_type = visa_type
+        visa.save()
+
+
 #register commands
 manager = Manager(app)
 manager.add_command('register-service', RegisterService())
@@ -150,6 +182,7 @@ manager.add_command('list-clients', ListClients())
 manager.add_command('import-data', ImportData())
 manager.add_command('delete-object', DeleteObject())
 manager.add_command('delete-object-type', DeleteObjectByType())
+manager.add_command('grant-visa', GrantVisa())
 
 if __name__ == "__main__":
     manager.run()
