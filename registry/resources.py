@@ -388,7 +388,7 @@ class NoticeList(Resource):
     def get(self):
         self.parser.add_argument('max', type=int)
         args = self.parser.parse_args()
-        notices = registers.Notice.objects[:args['max']]
+        notices = registers.Notice.objects.order_by('-created_at')[:args['max']]
         return [notice.to_dict() for notice in notices]
 
 
