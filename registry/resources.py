@@ -392,6 +392,44 @@ class NoticeList(Resource):
         return [notice.to_dict() for notice in notices]
 
 
+class Visa(Resource):
+
+    @oauth.require_oauth()
+    def get(self, _id):
+
+        valid_view_scope, req = oauth.verify_request(['visa:view'])
+        if valid_view_scope:
+            visa = mongo_get_or_abort(_id, registers.Visa)
+            return visa.to_dict()
+        else:
+            return "Forbidden", 403
+
+class VisaList(Resource):
+
+    def __init__(self):
+        self.parser = reqparse.RequestParser()
+        super(VisaList, self).__init__()
+
+    def options(self):
+        pass
+
+    @oauth.require_oauth('visa:view')
+    def get(self):
+        result = []
+
+        current_app.logger.info('GOT HERE %s' % request.oauth.user.person_uri)
+
+        visas = registers.Visa.objects(person_uri=request.oauth.user.person_uri)
+        for visa in visas:
+            result.append(visa.to_dict())
+
+        current_app.logger.info('FOUND SOMETHING %s' % result)
+        return result
+
+    @oauth.require_oauth('visa:add')
+    def post(self):
+        pass
+
 #routes
 api.add_resource(About, '/about')
 api.add_resource(Person, '/people/<string:_id>')
@@ -408,3 +446,6 @@ api.add_resource(EmployerList, '/employers')
 api.add_resource(Employer, '/employers/<string:_id>')
 api.add_resource(NoticeList, '/notices')
 api.add_resource(Notice, '/notices/<string:_id>')
+api.add_resource(VisaList, '/visas')
+api.add_resource(Visa, '/visas/<string:_id>')
+
