@@ -423,7 +423,6 @@ class VisaList(Resource):
         for visa in visas:
             result.append(visa.to_dict())
 
-        current_app.logger.info('FOUND SOMETHING %s' % result)
         return result
 
     @oauth.require_oauth('visa:add')
