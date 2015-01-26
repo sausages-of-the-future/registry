@@ -146,6 +146,14 @@ class GrantVisa(Command):
     Grants a visa to a user
     """
 
+    def _fake_passport_number(self):
+        import string, random
+        source = string.ascii_uppercase + string.digits
+        number = []
+        for i in range(0, 9):
+            number.append(random.choice(source))
+        return ''.join(number)
+
     def run(self):
         email = prompt('email of user to grant visa to')
         visa_choices=[(1, 'Tier 1 (Entrepreneur) visa'),
@@ -155,6 +163,7 @@ class GrantVisa(Command):
         choice = prompt_choices(name='Visa type', resolve=int, choices=visa_choices)
 
         visa_type = visa_choices[choice-1][1]
+        print("You have chosen:", visa_type)
 
         person = auth.AuthUser.objects(email=email).first()
 
@@ -168,7 +177,8 @@ class GrantVisa(Command):
         visa.issued_at = datetime.now()
         visa.expires_at = visa.issued_at + timedelta(weeks=52)
         visa.person_uri = person.person_uri
-        visa_type = visa_type
+        visa.visa_type = visa_type
+        visa.passport_number = self._fake_passport_number()
         visa.save()
 
 

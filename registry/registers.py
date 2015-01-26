@@ -14,13 +14,15 @@ from mongoengine import (
 )
 
 avaliable_scopes = {
-    'person:view': 'Check your date of birth',
+    'person:view': 'View your full name and date of birth',
     'licence:view': 'View licences you hold',
     'licence:add': 'Issue a licence to you',
     'organisation:add': 'Create an organisation',
     'vehicle:view': 'View details of cars and other vehicles registered to you',
     'address:view': 'View your current address',
     'income:view': 'View your PAYE income',
+    'visa:view': 'View visas you hold',
+    'visa:add': 'Issue a visa to you',
     }
 
 class  RegisterBase(Document):
@@ -57,14 +59,17 @@ class Visa(RegisterBase):
     expires_at = DateTimeField()
     person_uri = URLField(required=True)
     visa_type = StringField()
+    passport_number = StringField()
 
     def to_dict(self):
         return {
-            'slug': self.slug,
+            'slug': self._slug,
+            'uri': self.uri,
             'issued_at': self.issued_at.isoformat(),
             'expires_at': self.expires_at.isoformat(),
             'person_uri': self.person_uri,
-            'visa_type': self.visa_type
+            'visa_type': self.visa_type,
+            'passport_number': self.passport_number
         }
 
 class Organisation(RegisterBase):
