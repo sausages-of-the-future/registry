@@ -5,6 +5,9 @@ from mongoengine import DoesNotExist, ValidationError
 from registry import api, registers, app, oauth
 #from flask_restful.utils import cors
 
+from registry.auth import AuthUserLog
+from registry.decorators import audit_log
+
 def mongo_get_or_abort(_id, cls):
     try:
         return cls.objects.get(id=_id)
@@ -64,6 +67,7 @@ class Licence(Resource):
         pass
 
     @oauth.require_oauth()
+    @audit_log
     def get(self, _id):
 
         valid_view_scope, req = oauth.verify_request(['licence:view'])
@@ -89,6 +93,7 @@ class LicenceList(Resource):
         pass
 
     @oauth.require_oauth('licence:view')
+    @audit_log
     def get(self):
         result = []
         licences = registers.Licence.objects(person_uri=request.oauth.user.person_uri)
