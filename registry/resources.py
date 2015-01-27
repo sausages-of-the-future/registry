@@ -37,6 +37,7 @@ class Person(Resource):
         return "Forbidden", 403
 
     @oauth.require_oauth('person:view')
+    @audit_log
     def get(self, _id):
         person = mongo_get_or_abort(_id, registers.Person)
         if person.uri == request.oauth.user.person_uri:
@@ -203,6 +204,7 @@ class OrganisationList(Resource):
         return result
 
     @oauth.require_oauth('organisation:add')
+    @audit_log
     def post(self):
 
         #this would be gov only, for a particular user
@@ -400,6 +402,7 @@ class NoticeList(Resource):
 class Visa(Resource):
 
     @oauth.require_oauth()
+    @audit_log
     def get(self, _id):
 
         valid_view_scope, req = oauth.verify_request(['visa:view'])
@@ -419,6 +422,7 @@ class VisaList(Resource):
         pass
 
     @oauth.require_oauth('visa:view')
+    @audit_log
     def get(self):
         result = []
 
