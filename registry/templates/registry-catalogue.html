@@ -3,27 +3,25 @@
 {% block header %}
   <div class="header registry">
     <nav class="top-bar" data-topbar>
-      <h1><img id="header_crest" src="{{url_for('static', filename='images/crest_white.png')}}"/> <a href="/">{% block header_title %}Registry catalogue {% endblock %}</a></h1>
+      <h1><img id="header_crest" src="{{url_for('static', filename='images/crest_white.png')}}"/> <a href="/">{% block header_title %}Registry catalogue{% endblock %}</a></h1>
     </nav>
   </div>
 {% endblock %}
 {% block content %}
   <div class="row">
     <div class="small-12 columns">
-      <h3>Notices Registry</h3>
-
-      <h3>Organisations Registry</h3>
-
-      <h3>Licensing Registry</h3>
-
-      <h3>Geographies Registry</h3>
-
-      <h3>Environment Registry</h3>
-
-      <h3>Finance Registry</h3>
-
-      <h3>Driving Registry</h3>
-
+      <ul class="side-nav">
+        <li><a href="#">Borders registry</a></li>
+        <li><a href="#">Environment registry</a></li>
+        <li><a href="#">Finance registry</a></li>
+        <li><a href="#">Geographic registry</a></li>   
+        <li><a href="#">Licensing registry</a></li>     
+        <li><a href="#">Notices registry</a></li>  
+        <li><a href="#">Official lists registry</a></li>
+        <li><a href="#">Organisations registry</a></li>
+        <li><a href="#">Ownership &amp; interests registry</a></li>  
+        <li><a href="#">Registrations registry</a></li>
+      </ul>
     </div>
   </div>
 {% endblock %}
