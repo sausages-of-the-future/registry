@@ -85,7 +85,8 @@ def logout():
 def your_data():
 
     user = auth.AuthUser.objects.get(id=session['user_id'])
-    log = auth.AuthUserLog.objects(user=user)
+    log = auth.AuthUserLog.objects(user=user).order_by('-occured_at')
+
 
     if request.method == 'POST':
         token = AuthToken.objects.get(id=request.form['revoke'])
