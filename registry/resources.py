@@ -5,8 +5,7 @@ from mongoengine import DoesNotExist, ValidationError
 from registry import api, registers, app, oauth
 #from flask_restful.utils import cors
 
-from registry.auth import AuthUserLog
-from registry.decorators import audit_log
+from registry.utils import log_access, log_traceback
 
 def mongo_get_or_abort(_id, cls):
     try:
@@ -37,7 +36,6 @@ class Person(Resource):
         return "Forbidden", 403
 
     @oauth.require_oauth('person:view')
-    @audit_log
     def get(self, _id):
         person = mongo_get_or_abort(_id, registers.Person)
         if person.uri == request.oauth.user.person_uri:
@@ -68,7 +66,6 @@ class Licence(Resource):
         pass
 
     @oauth.require_oauth()
-    @audit_log
     def get(self, _id):
 
         valid_view_scope, req = oauth.verify_request(['licence:view'])
@@ -76,6 +73,9 @@ class Licence(Resource):
             licence = mongo_get_or_abort(_id, registers.Licence)
             #if belongs to use token, then we can return more info
             #todo: return different data for each of these states
+
+            log_access(licence['person_uri'], licence.uri)
+
             if licence.person_uri == request.oauth.user.person_uri:
                 return licence.to_dict()
             else:
@@ -94,11 +94,11 @@ class LicenceList(Resource):
         pass
 
     @oauth.require_oauth('licence:view')
-    @audit_log
     def get(self):
         result = []
         licences = registers.Licence.objects(person_uri=request.oauth.user.person_uri)
         for licence in licences:
+            log_access(licence['person_uri'], licence.uri)
             result.append(licence.to_dict())
         return result
 
@@ -204,7 +204,6 @@ class OrganisationList(Resource):
         return result
 
     @oauth.require_oauth('organisation:add')
-    @audit_log
     def post(self):
 
         #this would be gov only, for a particular user
@@ -402,12 +401,16 @@ class NoticeList(Resource):
 class Visa(Resource):
 
     @oauth.require_oauth()
-    @audit_log
     def get(self, _id):
 
         valid_view_scope, req = oauth.verify_request(['visa:view'])
         if valid_view_scope:
             visa = mongo_get_or_abort(_id, registers.Visa)
+            try:
+                log_access(visa['person_uri'], visa.uri)
+            except Exception as ex:
+                log_traceback(current_app.logger, ex)
+
             return visa.to_dict()
         else:
             return "Forbidden", 403
@@ -422,14 +425,11 @@ class VisaList(Resource):
         pass
 
     @oauth.require_oauth('visa:view')
-    @audit_log
     def get(self):
         result = []
-
-        current_app.logger.info('GOT HERE %s' % request.oauth.user.person_uri)
-
         visas = registers.Visa.objects(person_uri=request.oauth.user.person_uri)
         for visa in visas:
+            log_access(visa['person_uri'], visa.uri)
             result.append(visa.to_dict())
 
         return result
