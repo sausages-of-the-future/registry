@@ -168,6 +168,7 @@ class Licence(RegisterBase):
     """
     A list of licences that have been issued to people and organisations
     """
+    _slug = 'licences'
     person_uri = URLField(required=True)
     starts_at = DateTimeField(required=True)
     ends_at = DateTimeField(required=True)
