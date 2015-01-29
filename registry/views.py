@@ -24,6 +24,11 @@ def format_date_filter(value):
     date = dateutil.parser.parse(str(value))
     return date.strftime('%A %d %B')
 
+@app.template_filter('format_date_time')
+def format_date_time_filter(value):
+    date = dateutil.parser.parse(str(value))
+    return date.strftime('%d %B %Y - %H:%M')
+
 @app.route('/')
 def index():
     return redirect(app.config['WWW_BASE_URL'])
