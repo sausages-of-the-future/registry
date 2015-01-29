@@ -5,6 +5,11 @@ from registry import app, auth, oauth, login_manager, registers, forms
 from registry.auth import AuthClient, AuthToken, AuthUser
 #from mongoengine import DoesNotExist
 
+#helpers
+def tokenize_name(name):
+    return "%s %s." % (name.split(' ')[0], name.split(' ')[1][0])
+
+
 #filters
 @app.template_filter('format_scope')
 def format_scope_filter(value):
@@ -85,6 +90,8 @@ def logout():
 def your_data():
 
     user = auth.AuthUser.objects.get(id=session['user_id'])
+    person = registers.Person.objects.get(id=user.person_uri.split("/")[-1])
+    tokenized_name = tokenize_name(person.full_name)
     log = auth.AuthUserLog.objects(user=user).order_by('-occured_at')
 
     if request.method == 'POST':
@@ -93,8 +100,41 @@ def your_data():
         # todo: delete client if no outstanding tokens
 
     tokens = AuthToken.objects()
-    return render_template('your-data.html', tokens=tokens, log=log)
+    return render_template('your-data.html', tokens=tokens, log=log, tokenized_name=tokenized_name)
 
+@app.route('/your-data/access', methods=['GET', 'POST'])
+@login_required
+def your_access():
+
+    user = auth.AuthUser.objects.get(id=session['user_id'])
+    person = registers.Person.objects.get(id=user.person_uri.split("/")[-1])
+    tokenized_name = tokenize_name(person.full_name)
+    log = auth.AuthUserLog.objects(user=user).order_by('-occured_at')
+
+    if request.method == 'POST':
+        token = AuthToken.objects.get(id=request.form['revoke'])
+        token.delete()
+        # todo: delete client if no outstanding tokens
+
+    tokens = AuthToken.objects()
+    return render_template('your-access.html', tokens=tokens, log=log, tokenized_name=tokenized_name)
+
+@app.route('/your-data/log', methods=['GET', 'POST'])
+@login_required
+def your_log():
+
+    user = auth.AuthUser.objects.get(id=session['user_id'])
+    person = registers.Person.objects.get(id=user.person_uri.split("/")[-1])
+    tokenized_name = tokenize_name(person.full_name)
+    log = auth.AuthUserLog.objects(user=user).order_by('-occured_at')
+
+    if request.method == 'POST':
+        token = AuthToken.objects.get(id=request.form['revoke'])
+        token.delete()
+        # todo: delete client if no outstanding tokens
+
+    tokens = AuthToken.objects()
+    return render_template('your-log.html', tokens=tokens, log=log, tokenized_name=tokenized_name)
 
 @app.route('/oauth/token', methods=['POST'])
 @oauth.token_handler

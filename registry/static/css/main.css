@@ -21,6 +21,11 @@ table {
   width:100%;
 }
 
+.signout {
+  top: 1.3rem;
+  position: relative;
+}
+
 .button {
   background:#2372B5;
   border-bottom:5px solid #255c8a;
@@ -164,4 +169,26 @@ table {
 
 .verify .button-group li {
  padding:3px;
+}
+
+
+.big-nav {
+  list-style-type: none;
+  margin-left:0;
+}
+
+.big-nav li {
+  border:solid 1px #a4a5a6;
+  padding:1rem 0.7rem;
+  margin-bottom:0.7rem;
+  font-weight:bold;
+  font-size:1.2rem;
+  background:url(../images/arrow.png) center right 1rem no-repeat;
+}
+
+.big-nav li small { 
+    font-weight:normal;
+    color:#57575a;
+    font-size:0.9rem;
+    display:block;
 }

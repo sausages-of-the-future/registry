@@ -4,7 +4,7 @@
 {% block header %}
   <div class="header registry">
     <nav class="top-bar" data-topbar>
-      <h1><img id="header_crest" src="{{url_for('static', filename='images/crest_white.png')}}"/> <a href="/">{% block header_title %}Permissions Manager{% endblock %}</a></h1>
+      <h1><img id="header_crest" src="{{url_for('static', filename='images/crest_white.png')}}"/> <a href="{{url_for('your_data')}}">{% block header_title %}Permissions Manager{% endblock %}</a></h1>
     </nav>
   </div>
 {% endblock %}
@@ -12,70 +12,38 @@
 {% block content %}
   <div class="row">
     <div class="small-12 columns">
-    <h3>Services with access to your data</h3>
-      {% if tokens %}
-        <form id="form_id" action="" method="post">
-          <table>
-            <thead>
-              <tr>
-                <th>Service name</th>
-                <th>Provided by</th>
-                <th>Permissions</th>
-                <!-- <th>&nbsp;</th> -->
-              </tr>
-            </thead>
-            {% for token in tokens %}
-              <tr>
-                <td>
-                  {{token.client.name}}
-                </td>
-                <td>
-                  <span>{{token.client.organisation_type}}</span>
-                </td>
-                <td>
-                  <ul>
-                    {% for scope in token.scopes %}
-                      <li>{{scope|format_scope}}</li>
-                    {% endfor %}
-                  </ul>
-                </td>
-<!--                 <td><button type="submit" value="{{token.id}}" name="revoke" class="button tiny alert">Revoke</button></td>
-              </tr> -->
-            {% endfor %}
-          </table>
-        </form>
-      {% else %}
-        <p>There are no authorized apps.</p>
-      {% endif %}
-
-      <h3>Access history</h3>
-      {% if log %}
-        <table>
-          <tr>
-            <th>Description</th>
-            <th>Date</th>
-          </tr>
-          {% for item in log %}
-            <tr>
-             <td><strong>{{item.client.name}}</strong> {{item.action}}</td>   
-             <td>{{item.occured_at}}</td>   
-            </tr>
-          {% endfor %}
-        </table>
-      {% else %}
-        <p>There is no history to show</p>
-      {% endif %}
-
-      <h3>Export your data</h3>
+      <p>
+        <a href="{{url_for('logout')}}" class="right signout">Sign out</a>
+      </p>
+      <h2>{{tokenized_name}}</h2>
+      <p>
+        You can see the services that have access to your data. 
+        You can also view a history of what services 
+        have accessed your data over a period of time.
+      </p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="small-12 columns">
+      <ul class="big-nav">
+        <li>
+          <a href="{{url_for('your_access')}}">
+            View services with access to your data
+            <small>{{tokens|length}} services currently have access</small>
+          </a>
+        </li>
+        <li>
+          <a href="{{url_for('your_log')}}">
+            View access history
+            <small>Your data has been accessed {{log|length}} {% if log|length == 1 %}time{% else %}times{% endif %} in the last month</small>
+          </a>
+        </li>
+      </ul>
       <p>
         You can request a download of all your data held by registries.
         The process will require some additional security steps.
+        <a href="#">Learn more</a>.
       </p>
-      <p>
-        <a href="#" class="button expand">Get started</a>
-      </p>
-
-
     </div>
   </div>
 {% endblock %}
