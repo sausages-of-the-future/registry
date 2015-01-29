@@ -182,6 +182,23 @@ class GrantVisa(Command):
         visa.save()
 
 
+class DeleteNonLoginPersons(Command):
+    """
+    Deletes People in db that aren't linked to auth user accounts.
+    """
+    def run(self):
+        auth_users = auth.AuthUser.objects.all()
+        people = registers.Person.objects.all()
+        auth_users_person_id = [user.person_uri.split('/')[-1] for user in auth_users]
+
+        for person in people:
+            if str(person.id) not in auth_users_person_id:
+                print("Delete person with id %s" % person.id)
+                person.delete()
+            else:
+                print("Keep person with id %s" % person.id)
+
+
 #register commands
 manager = Manager(app)
 manager.add_command('register-service', RegisterService())
@@ -193,6 +210,7 @@ manager.add_command('import-data', ImportData())
 manager.add_command('delete-object', DeleteObject())
 manager.add_command('delete-object-type', DeleteObjectByType())
 manager.add_command('grant-visa', GrantVisa())
+manager.add_command('delete-non-login-people', DeleteNonLoginPersons())
 
 if __name__ == "__main__":
     manager.run()
