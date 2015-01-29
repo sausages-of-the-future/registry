@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}Your data{% endblock %}
+
+{% block header %}
+  <div class="header registry">
+    <nav class="top-bar" data-topbar>
+      <h1><img id="header_crest" src="{{url_for('static', filename='images/crest_white.png')}}"/> <a href="{{url_for('your_data')}}">{% block header_title %}Permissions Manager{% endblock %}</a></h1>
+    </nav>
+  </div>
+{% endblock %}
+
+{% block content %}
+  <div class="row">
+    <div class="small-12 columns">
+      <h2>Services with access to your data</h2>
+      {% if tokens %}
+        <form id="form_id" action="" method="post">
+          <table>
+            <thead>
+              <tr>
+                <th>Service name</th>
+                <th>Provided by</th>
+                <th>Permissions</th>
+                <th>&nbsp;</th>
+              </tr>
+            </thead>
+            {% for token in tokens %}
+              <tr>
+                <td>
+                  {{token.client.name}}
+                </td>
+                <td>
+                  <span>{{token.client.organisation_type}}</span>
+                </td>
+                <td>
+                  <ul>
+                    {% for scope in token.scopes %}
+                      <li>{{scope|format_scope}}</li>
+                    {% endfor %}
+                  </ul>
+                </td>
+                  <td><button type="submit" value="{{token.id}}" name="revoke" class="button tiny alert">Revoke</button></td>
+              </tr>
+            {% endfor %}
+          </table>
+        </form>
+      {% else %}
+        <p>There are no authorized apps.</p>
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}
