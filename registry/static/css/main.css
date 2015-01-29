@@ -186,6 +186,10 @@ table {
   background:url(../images/arrow.png) center right 1rem no-repeat;
 }
 
+.big-nav li a {
+  display:block;
+}
+
 .big-nav li small { 
     font-weight:normal;
     color:#57575a;

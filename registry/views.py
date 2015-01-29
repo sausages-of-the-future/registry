@@ -83,7 +83,7 @@ def registry_catalogue():
 @app.route('/signout')
 def logout():
     logout_user()
-    return redirect(url_for('index'))
+    return redirect(url_for('your_data'))
 
 @app.route('/your-data', methods=['GET', 'POST'])
 @login_required
