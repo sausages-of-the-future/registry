@@ -125,10 +125,11 @@ class DeleteObjectByType(Command):
     Deletes the object in db for a give register type - be careful
     """
 
-    type_dict = {'organisations' : registers.Organisation, 'licences' : registers.Licence, 'notices': registers.Notice} # add more as needed
+    type_dict = {'organisations' : registers.Organisation, 'licences' : registers.Licence, 'notices': registers.Notice, 'visas': registers.Visa, 'dataprotection': registers.DataProtection, 'employers': registers.Employer} # add more as needed
 
     def run(self):
-        object_type = prompt("Object type (e.g. organisations, licences or notices)").lower()
+        object_keys = [key for key in self.type_dict.keys()]
+        object_type = prompt("Object type (e.g. %s)" % object_keys).lower()
         type_class = self.type_dict.get(object_type)
         if not type_class:
             print("Can't find type to delete %s" % type_class)
@@ -147,11 +148,9 @@ class GrantVisa(Command):
     """
 
     def _fake_passport_number(self):
-        import string, random
-        source = string.ascii_uppercase + string.digits
-        number = []
-        for i in range(0, 9):
-            number.append(random.choice(source))
+        import random, string
+        digits = string.digits
+        number = random.sample(digits, 10)
         return ''.join(number)
 
     def run(self):
