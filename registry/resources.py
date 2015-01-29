@@ -2,7 +2,7 @@ from datetime import datetime
 from flask import request, current_app
 from flask.ext.restful import reqparse, abort, Resource, inputs
 from mongoengine import DoesNotExist, ValidationError
-from registry import api, registers, app, oauth
+from registry import api, registers, app, oauth, locator
 #from flask_restful.utils import cors
 
 from registry.utils import log_access, log_traceback
@@ -68,6 +68,9 @@ class Licence(Resource):
     @oauth.require_oauth()
     def get(self, _id):
 
+        locator.send_message({"active": "registry"})
+        locator.send_message({"active": "licences"})
+
         valid_view_scope, req = oauth.verify_request(['licence:view'])
         if valid_view_scope:
             licence = mongo_get_or_abort(_id, registers.Licence)
@@ -95,6 +98,10 @@ class LicenceList(Resource):
 
     @oauth.require_oauth('licence:view')
     def get(self):
+
+        locator.send_message({"active": "registry"})
+        locator.send_message({"active": "licences"})
+
         result = []
         licences = registers.Licence.objects(person_uri=request.oauth.user.person_uri)
         for licence in licences:
@@ -104,6 +111,9 @@ class LicenceList(Resource):
 
     @oauth.require_oauth('licence:add')
     def post(self):
+
+        locator.send_message({"active": "registry"})
+        locator.send_message({"active": "licences"})
 
         self.parser.add_argument('type_uri', type=inputs.url, required=True, location='json', help="Must be a valid URI")
         self.parser.add_argument('starts_at', type=inputs.date, required=True, location='json', help="Must be a valid date eg ISO 2013-01-01")
@@ -205,6 +215,9 @@ class OrganisationList(Resource):
 
     @oauth.require_oauth('organisation:add')
     def post(self):
+
+        locator.send_message({"active": "registry"})
+        locator.send_message({"active": "organisations_registry"})
 
         #this would be gov only, for a particular user
         self.parser.add_argument('name', required=True, location='json', help="An organisaiton must have a name")
