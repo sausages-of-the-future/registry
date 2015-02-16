@@ -208,7 +208,15 @@ class OrganisationList(Resource):
 
     def get(self):
         result = []
-        organisations = registers.Organisation.objects()
+
+        self.parser.add_argument('search_term', location='args', help="Optional search term")
+        args = self.parser.parse_args()
+        search_term = args.get('search_term')
+        if search_term:
+            organisations = registers.Organisation.objects.filter(name__icontains=search_term)
+        else:
+            organisations = registers.Organisation.objects()
+
         for organisation in organisations:
             result.append(organisation.to_dict())
         return result
