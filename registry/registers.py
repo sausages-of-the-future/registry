@@ -118,7 +118,9 @@ class Notice(RegisterBase):
     #TODO set expiry date
 
     def to_dict(self):
-        return {'slug': self._slug,
+        return {
+                'uri': self.uri,
+                'slug': self._slug,
                 'title': self.title,
                 'detail': self.detail,
                 'created_at': self.created_at.isoformat(),
