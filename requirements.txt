@@ -25,4 +25,4 @@ voluptuous==0.8.6
 redis==2.10.3
 blinker==1.3
 raven==5.1.1
--e /vagrant/apps/messenger
+-e git+https://github.com/ashimali/messenger.git#egg=messenger

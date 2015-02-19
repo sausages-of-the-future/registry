@@ -24,8 +24,8 @@
           </tr>
           {% for item in log %}
             <tr>
-             <td><strong>{{item.client.name}}</strong> {{item.action}}</td>   
-             <td>{{item.occured_at}}</td>   
+             <td><strong>{{item.client.name}}</strong> {{item.action}}</td>
+             <td>{{ item.occured_at | format_date_time }}</td>
             </tr>
           {% endfor %}
         </table>

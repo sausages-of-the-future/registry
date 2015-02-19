@@ -57,10 +57,12 @@ def get_user(username, password, *args, **kwargs):
 
 @oauth.tokengetter
 def load_token(access_token=None, refresh_token=None):
+    token = None
     if access_token:
-        return AuthToken.objects(access_token=access_token)[0]
+        token = AuthToken.objects(access_token=access_token).first()
     elif refresh_token:
-        return AuthToken.objects(refresh_token=refresh_token)[0]
+        token = AuthToken.objects(refresh_token=refresh_token).first()
+    return token
 
 @oauth.tokensetter
 def save_token(token_data, request, *args, **kwargs):

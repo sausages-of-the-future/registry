@@ -1,7 +1,7 @@
 from flask import render_template, request, redirect, url_for, session
 from flask.ext.login import login_required, login_user, logout_user, current_user
 import dateutil.parser
-from registry import app, auth, oauth, login_manager, registers, forms
+from registry import app, auth, oauth, login_manager, registers, forms, locator
 from registry.auth import AuthClient, AuthToken, AuthUser
 #from mongoengine import DoesNotExist
 
@@ -24,12 +24,20 @@ def format_date_filter(value):
     date = dateutil.parser.parse(str(value))
     return date.strftime('%A %d %B')
 
+@app.template_filter('format_date_time')
+def format_date_time_filter(value):
+    date = dateutil.parser.parse(str(value))
+    return date.strftime('%d %B %Y - %H:%M')
+
 @app.route('/')
 def index():
     return redirect(app.config['WWW_BASE_URL'])
 
 @app.route('/choose-provider', methods=['GET', 'POST'])
 def choose_provider():
+
+    locator.send_message({"active": "registry"})
+
     next_ = request.args.get('next', None)
     form = forms.ChooseProviderForm()
     return render_template('choose-provider.html', form=form, next=next_)
@@ -146,6 +154,9 @@ def access_token():
 @login_required
 def authorize(*args, **kwargs):
     if request.method == 'GET':
+
+        locator.send_message({"active": "registry"})
+
         client = AuthClient.objects.get(
             client_id=request.args.get('client_id'))
         kwargs['client'] = client

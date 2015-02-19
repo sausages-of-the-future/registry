@@ -23,6 +23,7 @@ avaliable_scopes = {
     'income:view': 'View your PAYE income',
     'visa:view': 'View visas you hold',
     'visa:add': 'Issue a visa to you',
+    'notice:add': 'Issue a notice'
     }
 
 class  RegisterBase(Document):
