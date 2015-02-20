@@ -88,6 +88,15 @@ class ImportData(Command):
         with open("%s/libraries.json" % import_dir, 'rb') as json_file:
             libraries = json.loads(json_file.read().decode(encoding='UTF-8'))
 
+        with open("%s/addresses.json" % import_dir, 'rb') as json_file:
+            addresses = json.loads(json_file.read().decode(encoding='UTF-8'))
+            for address in addresses['addresses']:
+                print(address)
+                addr = registers.Address()
+                addr.address = address['address']
+                addr.lat_lng = address['lat_lng']
+                addr.save()
+
 
 
 class CreateUser(Command):
