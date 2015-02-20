@@ -39,8 +39,11 @@ api.decorators=[cors.crossdomain(origin='*', headers = "origin,content-type,acce
 
 @api.representation('text/html')
 def output_html(data, code, headers):
-    template = '%s.html' % data.get('slug', 'registerbase')
-    resp = make_response(render_template(template, data=data))
+    if not isinstance(data, list):
+        template = '%s.html' % data.get('slug', 'registerbase')
+        resp = make_response(render_template(template, data=data))
+    else:
+        resp = make_response(render_template('registerbase_list.html', data_list=data))
     for key, val in headers.items():
         resp.headers[key] = value
     return resp

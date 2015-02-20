@@ -152,7 +152,7 @@ class Address(RegisterBase):
         return {
                 'uri': self.uri,
                 'address': self.address,
-                'lat_lng': self.lat_lng,
+                'lat_lng': self.lat_lng
                 }
 
 class Area(RegisterBase):
