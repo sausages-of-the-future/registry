@@ -144,8 +144,16 @@ class Address(RegisterBase):
     """
     A list of places
     """
+    _slug = 'addresses'
     address = StringField(required=True)
     lat_lng = PointField(required=True)
+
+    def to_dict(self):
+        return {
+                'uri': self.uri,
+                'address': self.address,
+                'lat_lng': self.lat_lng
+                }
 
 class Area(RegisterBase):
     """
@@ -220,4 +228,4 @@ class Employer(RegisterBase):
                 'registration_date': self.registration_date.isoformat(),
         }
 
-registry_classes = [Person, Licence, List, Organisation, Notice, Amenity, Address, Area, DataProtection, Employer, Visa]
+registry_classes = [Person, Licence, List, Organisation, Notice, Amenity, Address, Area, DataProtection, Employer, Visa, Address]

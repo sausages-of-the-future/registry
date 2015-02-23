@@ -459,6 +459,35 @@ class VisaList(Resource):
     def post(self):
         pass
 
+
+class Address(Resource):
+
+    def get(self, _id):
+        address = mongo_get_or_abort(_id, registers.Address)
+        return address.to_dict()
+
+class AddressList(Resource):
+
+    def __init__(self):
+        self.parser = reqparse.RequestParser()
+        super(AddressList, self).__init__()
+
+    def options(self):
+        pass
+
+    def get(self):
+        self.parser.add_argument('postcode', location='args', help="Required postcode filter", required=True)
+        args = self.parser.parse_args()
+        postcode = args.get('postcode')
+        result = []
+        addresses = registers.Address.objects.filter(address__icontains=postcode)
+        for address in addresses:
+            result.append(address.to_dict())
+        return result
+
+    def post(self):
+        pass
+
 #routes
 api.add_resource(About, '/about')
 api.add_resource(Person, '/people/<string:_id>')
@@ -477,4 +506,6 @@ api.add_resource(NoticeList, '/notices')
 api.add_resource(Notice, '/notices/<string:_id>')
 api.add_resource(VisaList, '/visas')
 api.add_resource(Visa, '/visas/<string:_id>')
+api.add_resource(AddressList, '/addresses')
+api.add_resource(Address, '/addresses/<string:_id>')
 

@@ -88,6 +88,15 @@ class ImportData(Command):
         with open("%s/libraries.json" % import_dir, 'rb') as json_file:
             libraries = json.loads(json_file.read().decode(encoding='UTF-8'))
 
+        with open("%s/addresses.json" % import_dir, 'rb') as json_file:
+            addresses = json.loads(json_file.read().decode(encoding='UTF-8'))
+            for address in addresses['addresses']:
+                print(address)
+                addr = registers.Address()
+                addr.address = address['address']
+                addr.lat_lng = address['lat_lng']
+                addr.save()
+
 
 
 class CreateUser(Command):
@@ -125,7 +134,7 @@ class DeleteObjectByType(Command):
     Deletes the object in db for a give register type - be careful
     """
 
-    type_dict = {'organisations' : registers.Organisation, 'licences' : registers.Licence, 'notices': registers.Notice, 'visas': registers.Visa, 'dataprotection': registers.DataProtection, 'employers': registers.Employer} # add more as needed
+    type_dict = {'organisations' : registers.Organisation, 'licences' : registers.Licence, 'notices': registers.Notice, 'visas': registers.Visa, 'dataprotection': registers.DataProtection, 'employers': registers.Employer, 'addresses': registers.Address} # add more as needed
 
     def run(self):
         object_keys = [key for key in self.type_dict.keys()]
