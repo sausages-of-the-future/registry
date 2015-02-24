@@ -208,12 +208,15 @@ class OrganisationList(Resource):
 
     def get(self):
         result = []
-
         self.parser.add_argument('search_term', location='args', help="Optional search term")
+        self.parser.add_argument('exact_match', location='args', help="Optional exact match on name")
         args = self.parser.parse_args()
         search_term = args.get('search_term')
+        exact_match = args.get('exact_match')
         if search_term:
             organisations = registers.Organisation.objects.filter(name__icontains=search_term)
+        elif exact_match:
+            organisations = registers.Organisation.objects.filter(name__iexact=exact_match)
         else:
             organisations = registers.Organisation.objects()
 
