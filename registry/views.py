@@ -1,9 +1,20 @@
 from flask import render_template, request, redirect, url_for, session
-from flask.ext.login import login_required, login_user, logout_user, current_user
+from flask.ext.login import login_required, login_user, logout_user, current_user, current_app
 import dateutil.parser
 from registry import app, auth, oauth, login_manager, registers, forms, locator
 from registry.auth import AuthClient, AuthToken, AuthUser
 #from mongoengine import DoesNotExist
+
+from registry.utils import log_traceback
+
+from itsdangerous import TimestampSigner
+import hashlib
+from time import (
+    gmtime,
+    mktime
+)
+from datetime import datetime
+from uuid import uuid4
 
 #helpers
 def tokenize_name(name):
@@ -164,3 +175,64 @@ def authorize(*args, **kwargs):
 
     confirm = request.form.get('confirm', 'no')
     return confirm == 'yes'
+
+@app.route('/register-user', methods=['POST'])
+def register_user():
+    data = request.form
+    if not (data['full_name'] or data['email']):
+        return 'Bad Request', 404
+    signed_data = request.headers['Authorisation']
+    client_key = app.config['WWW_CLIENT_KEY']
+    signer = TimestampSigner(client_key, digest_method=hashlib.sha256)
+    try:
+        unsigned = signer.unsign(signed_data, max_age=5)
+        client_id, email, full_name = unsigned.decode('utf-8').split(':')
+        if client_id != app.config['WWW_CLIENT_ID']:
+            raise Exception
+        if email != data['email']:
+            raise Exception
+        if full_name != data['full_name']:
+            raise Exception
+    except Exception as ex:
+        log_traceback(current_app.logger, ex)
+        return 'Unauthorized', 401
+
+    person = registers.Person()
+    person.born_at = datetime.fromtimestamp(mktime(gmtime(0)))
+    person.full_name = full_name
+    person.save()
+
+    random_temp_password = uuid4().hex
+    user = auth.AuthUser.create_user(email, random_temp_password)
+    user.person_uri = person.uri
+    user.save()
+
+    return 'Created', 201
+
+@app.route('/update-user-password', methods=['POST'])
+def update_user_password():
+    email = request.form.get('email')
+    if not email:
+        return 'Bad Request', 404
+    signed_data = request.headers['Authorisation']
+    client_key = app.config['WWW_CLIENT_KEY']
+    signer = TimestampSigner(client_key, digest_method=hashlib.sha256)
+    try:
+        unsigned = signer.unsign(signed_data, max_age=5)
+        client_id, user_email, password = unsigned.decode('utf-8').split(':')
+        if client_id != app.config['WWW_CLIENT_ID']:
+            raise Exception
+        if email != user_email:
+            raise Exception
+
+        user = AuthUser.objects.filter(email=email).first()
+        if not user:
+            abort(404)
+        else:
+            user.set_password(password)
+            user.save()
+            return 'OK', 200
+
+    except Exception as ex:
+        log_traceback(current_app.logger, ex)
+        return 'Unauthorized', 401

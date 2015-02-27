@@ -13,6 +13,8 @@ class Config(object):
     #PERMANENT_SESSION_LIFETIME = timedelta(seconds=90)
     PERMANENT_SESSION_LIFETIME = timedelta(seconds=30000)
     REDISCLOUD_URL = os.environ['REDISCLOUD_URL']
+    WWW_CLIENT_ID = os.environ['WWW_CLIENT_ID']
+    WWW_CLIENT_KEY = os.environ['WWW_CLIENT_KEY']
 
 class DevelopmentConfig(Config):
     DEBUG = True

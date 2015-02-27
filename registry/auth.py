@@ -116,12 +116,16 @@ class AuthUser(Document):
         #method required for flask-login
         return True
 
+    def set_password(self, password):
+        secret_and_password = app.config['SECRET_KEY'] + password
+        self.password = hashlib.md5(secret_and_password.encode('utf-8')).hexdigest()
+        self.save()
+
     @staticmethod
     def create_user(email, password):
         user = AuthUser()
         user.email = email
-        secret_and_password = app.config['SECRET_KEY'] + password
-        user.password = hashlib.md5(secret_and_password.encode('utf-8')).hexdigest()
+        user.set_password(password)
         user.save()
         return user
 
