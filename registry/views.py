@@ -1,5 +1,5 @@
 from flask import render_template, request, redirect, url_for, session
-from flask.ext.login import login_required, login_user, logout_user, current_user, current_app
+from flask.ext.login import login_required, login_user, logout_user, current_user, current_app, abort
 import dateutil.parser
 from registry import app, auth, oauth, login_manager, registers, forms, locator
 from registry.auth import AuthClient, AuthToken, AuthUser
