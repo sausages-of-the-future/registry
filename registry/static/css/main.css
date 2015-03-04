@@ -116,9 +116,14 @@ table {
 
 /* Verify */
 
+.verify {
+  text-align: center;
+}
+
 .verify h1 {
+  font-size: 1.6rem;
   padding:0;
-  margin:1rem 0 1rem 0;
+  margin:1rem 0 2rem 0;
   color:#fff;
   text-align:center;
   clear:both;
@@ -158,6 +163,7 @@ table {
 .verify .hint {
   border:none;
   text-align:center;
+  line-height: 1.6rem;
 }
 
 .verify .columns {
@@ -169,6 +175,23 @@ table {
 
 .verify .button-group li {
  padding:3px;
+}
+
+.verify img{
+  height: 160px;
+}
+
+.authorize .columns {
+  background: #fff;
+  color: #222;
+  border:solid 15px #2373b6;
+  min-height:600px;
+}
+.authorize h1 {
+  margin-top: 30px;
+}
+.authorize p {
+  line-height: 1.6rem;
 }
 
 
