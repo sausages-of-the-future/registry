@@ -2,7 +2,7 @@
 {% block title %}Your data{% endblock %}
 
 {% block header %}
-  <div class="header registry">
+  <div class="header permissions">
     <nav class="top-bar" data-topbar>
       <h1><img id="header_crest" src="{{url_for('static', filename='images/crest_white.png')}}"/> <a href="{{url_for('your_data')}}">{% block header_title %}Permissions Manager{% endblock %}</a></h1>
     </nav>
@@ -15,7 +15,6 @@
     <div class="small-12 columns">
     <a href="#" class="button alert tiny right">Something wrong?</a>
       <h2>Your access history</h2>
-
       {% if log %}
         <table>
           <tr>
@@ -25,9 +24,9 @@
           {% for item in log %}
             <tr>
              <td>
-              <strong>{{item.client.name}}</strong>
-              <br/>
-              <a href="{{item.action}}">{{item.action}}</a>
+                <strong>{{item.client.name}}</strong>
+                <br/>
+                <a href="{{item.action}}">{{item.action}}</a>
               </td>
              <td>{{ item.occured_at | format_date_time }}</td>
             </tr>
