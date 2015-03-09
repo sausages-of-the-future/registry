@@ -36,6 +36,10 @@ table {
   padding-top: 0.75rem;
 }
 
+.button.alert {
+  border-bottom:5px solid #CF2A0E!important;
+}
+
 .button-group.even-2 :first-child {
   padding-right:3px;
 }
