@@ -98,10 +98,6 @@ table {
   font-weight:normal;
 }
 
-.header.permissions, .header.permissions .top-bar {
-  background:#85994b;
-}
-
 /* things in registers*/
 .thing {
   background:#eceded;
