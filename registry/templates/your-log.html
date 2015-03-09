@@ -24,7 +24,11 @@
           </tr>
           {% for item in log %}
             <tr>
-             <td><strong>{{item.client.name}}</strong> {{item.action}}</td>
+             <td>
+              <strong>{{item.client.name}}</strong>
+              <br/>
+              <a href="{{item.action}}">{{item.action}}</a>
+              </td>
              <td>{{ item.occured_at | format_date_time }}</td>
             </tr>
           {% endfor %}

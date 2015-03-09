@@ -8,6 +8,10 @@ h1, h2, h3, h4, h5, h6 {
   font-weight:bold;
 }
 
+h2 {
+  margin:0.75rem 0 1rem 0;
+}
+
 
 a {
   color:#005EA5;
@@ -206,7 +210,6 @@ table {
   line-height: 1.6rem;
 }
 
-
 .big-nav {
   list-style-type: none;
   margin-left:0;
@@ -216,6 +219,7 @@ table {
   border:solid 1px #a4a5a6;
   padding:1rem 0.7rem;
   margin-bottom:0.7rem;
+  padding-right:30px;
   font-weight:bold;
   font-size:1.2rem;
   background:url(../images/arrow.png) center right 1rem no-repeat;

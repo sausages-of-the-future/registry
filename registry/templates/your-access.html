@@ -15,34 +15,23 @@
       <h2>Services with access to your data</h2>
       {% if tokens %}
         <form id="form_id" action="" method="post">
-          <table>
-            <thead>
-              <tr>
-                <th>Service name</th>
-                <th>Provided by</th>
-                <th>Permissions</th>
-                <th>&nbsp;</th>
-              </tr>
-            </thead>
             {% for token in tokens %}
-              <tr>
-                <td>
+              <div class="panel">
+                <h3>
                   {{token.client.name}}
-                </td>
-                <td>
-                  <span>{{token.client.organisation_type}}</span>
-                </td>
-                <td>
-                  <ul>
-                    {% for scope in token.scopes %}
-                      <li>{{scope|format_scope}}</li>
-                    {% endfor %}
-                  </ul>
-                </td>
-                  <td><button type="submit" value="{{token.id}}" name="revoke" class="button tiny alert">Revoke</button></td>
-              </tr>
+                  <button type="submit" value="{{token.id}}" name="revoke" class="button tiny alert right">Revoke</button>
+                </h3>
+                <p>
+                  This service is run by {{token.client.organisation_type}}
+                </p>
+                <h4>Permissions:</h4>
+                <ul>
+                  {% for scope in token.scopes %}
+                    <li>{{scope|format_scope}}</li>
+                  {% endfor %}
+                </ul>
+                </div>
             {% endfor %}
-          </table>
         </form>
       {% else %}
         <p>There are no authorized apps.</p>
