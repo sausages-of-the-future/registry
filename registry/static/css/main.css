@@ -28,12 +28,20 @@ table {
 
 .button {
   background:#2372B5;
-  border-bottom:5px solid #255c8a;
+  border-bottom:5px solid #094577!important;
   font-family: 'nta', Arial, Helvetica!important;
   font-weight:bold;
   font-size: 1.35rem;
   padding-bottom: 0.5rem;
   padding-top: 0.75rem;
+}
+
+.button-group.even-2 :first-child {
+  padding-right:3px;
+}
+
+.button-group.even-2 :last-child {
+  padding-left:3px;
 }
 
 .button:hover, .button:focus {
@@ -218,4 +226,8 @@ table {
     color:#57575a;
     font-size:0.9rem;
     display:block;
+}
+
+.permission-hint {
+  font-size:0.95rem;
 }

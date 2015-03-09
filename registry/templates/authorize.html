@@ -6,20 +6,22 @@
       <h1>Permissions</h1>
 
       <p>
-        {% if client.organisation_type == 'central government' %}
-          The {{ client.name }} service will:
-        {% elif client.organisation_type == 'local government' %}
-          {{ client.name }} is requesting access to:
-        {% else  %}
-          {{ client.name }} is requesting access to:
-        {% endif %}
+        <strong>
+          {% if client.organisation_type == 'central government' %}
+            The {{ client.name }} service will:
+          {% elif client.organisation_type == 'local government' %}
+            {{ client.name }} is requesting access to:
+          {% else  %}
+            {{ client.name }} is requesting access to:
+          {% endif %}
+        </strong>
       </p>
 
       <ul class="permissions">
         {% for key,value in avaliable_scopes.items() %}
             {% for scope in scopes %}
               {% if scope == key %}
-                  <li><strong>{{value|lower}}</strong></li>
+                  <li>{{value}}</li>
               {% endif %}
             {% endfor %}
         {% endfor %}
@@ -36,16 +38,16 @@
             <li><button type="submit" class="button" name="confirm" value="yes">Proceed</button></li>
             <li><button type="submit" class="button" name="confirm" value="no">Cancel</button></li>
           </ul>
-          <p>
-            This service is able to request access to this information because it has satisfied the relevant Chief Registrar that it has met the <a href="#">government data access principles</a>.
+          <p class="permission-hint">
+            This service is able to request access to this information because it has met the <a href="#">government data access principles</a>.
           </p>
         {% elif client.organisation_type == 'local government' %}
           <ul class="button-group even-2">
             <li><button type="submit" class="button" name="confirm" value="yes">Proceed</button></li>
             <li><button type="submit" class="button" name="confirm" value="no">Cancel</button></li>
           </ul>
-          <p>
-            This local government service is able to request access to this information because it has satisfied the relevant Chief Registrar that it has met the <a href="#">government data access principles</a>.
+          <p class="permission-hint">
+            This local government service is able to request access to this information because it has met the <a href="#">government data access principles</a>.
           </p>
         {% else  %}
           <p>
@@ -55,11 +57,17 @@
             <li><button type="submit" class="button" name="confirm" value="yes">Yes</button></li>
             <li><button type="submit" class="button" name="confirm" value="no">No</button></li>
           </ul>
-          <p>
-            This local government service is able to request access to this information because it has satisfied the relevant Chief Registrar that it has met the <a href="#">government data access principles</a>.
+          <p class="permission-hint">
+            This local government service is able to request access to this information because it has met the <a href="#">government data access principles</a>.
           </p>
         {% endif %}
       </form>
     </div>
   </div>
+  <script>
+    $('.button').attr("disabled", "disabled");
+    setTimeout(function() {
+      $('.button').attr("disabled", false);
+    }, 2000);
+  </script>
 {% endblock %}

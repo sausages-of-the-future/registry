@@ -17,13 +17,18 @@ avaliable_scopes = {
     'person:view': 'View your full name and check your age',
     'licence:view': 'View licences you hold',
     'licence:add': 'Issue a licence to you',
-    'organisation:add': 'Create an organisation',
     'vehicle:view': 'View details of cars and other vehicles registered to you',
     'address:view': 'View your current address',
     'income:view': 'View your PAYE income',
     'visa:view': 'View visas you hold',
     'visa:add': 'Issue a visa to you',
-    'notice:add': 'Issue a notice'
+    'notice:add': 'Issue a notice',
+    'organisation:add': 'Create an organisation',
+    'bankruptcy:check': 'Check your details against the Bankruptcy Register',
+    'insolvency:check': 'Check your details against the Insolvency Register',
+    'dataprotection:add': 'Add your organsisation to the Data Protection Register',
+    'employers:add': 'Add your organsisation to the Register of Employers',
+    'tax:add': 'Register for taxes',
     }
 
 class  RegisterBase(Document):
