@@ -96,6 +96,7 @@ class Organisation(RegisterBase):
     def to_dict(self):
         return {
                 'uri': self.uri,
+                'slug': self._slug,
                 'name': self.name,
                 'activities': self.activities,
                 'organisation_type': self.organisation_type,

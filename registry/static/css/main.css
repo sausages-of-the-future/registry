@@ -104,6 +104,11 @@ table {
   border:none;
   border-radius: 0;
   margin-top:1rem;
+  font-size: 1rem;
+}
+
+.thing dd a {
+  word-break: break-all;
 }
 
 .thing, .thing h3, .thing h4 {
@@ -120,14 +125,18 @@ table {
 .thing h3 {
   font-weight:bold;
   padding-right:1rem;
+  font-size: 1.2rem;
+  padding-top: 20px;
 }
 
 .thing .thing-footer {
   border-top:solid 2px #333;
-  padding-top:3rem;
-  padding-left:200px;
+  padding-top:15px;
+  padding-left:80px;
   background:url(../images/crest_grey.png) no-repeat 0 10px;
+  background-size: 50px;
   min-height:160px;
+  font-size: 0.8rem;
 }
 
 /* Verify */

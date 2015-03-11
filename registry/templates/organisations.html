@@ -1,0 +1,38 @@
+{% extends "registerbase.html" %}
+{% block title %}Data Protection{% endblock %}
+{% block header_title %}Organisation Register{% endblock %}
+{% block content %}
+    <div class="row">
+      <div class="small-12 columns">
+        <div class="panel thing">
+            <dl>
+            {% if data.name %}
+            	<dt>Organisation name</dt>
+            	<dd>{{data.name}}</dd>
+            	<dt>URI</dt>
+            	<dd><a href="{{ data.organisation_uri }}">{{data.uri}}</a></dd>
+            	<dt>Organisation type</dt>
+            	<dd>{{data.organisation_type}}</dd>
+            	<dt>Address</dt>
+            	<dd>{{data.full_address}}</dd>
+            	<dt>Directors</dt>
+            	<dd>{{data.directors}}</dd>
+            	<dt>Activities</dt>
+            	<dd>{{data.activities}}</dd>
+            	<dt>Data register</dt>
+            	<dd><a href="{{ data.organisation_uri }}">{{data.register_data}}</a></dd>
+            	<dt>Employer register</dt>
+            	<dd><a href="{{ data.organisation_uri }}">{{data.register_employer}}</a></dd>
+            	<dt>Construction register</dt>
+            	<dd><a href="{{ data.organisation_uri }}">{{data.register_construction}}</a></dd>
+            {% endif %}
+            </dl>
+            <p class="thing-footer">
+          This entry is held in the <a href="#">Data Protection register</a> which is 
+          maintained by the <a href="#">Data Protection Registry</a>
+          </p>
+            
+        </div>
+      </div>
+    </div>
+{% endblock %}
