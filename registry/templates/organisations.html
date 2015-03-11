@@ -20,18 +20,18 @@
             	<dt>Activities</dt>
             	<dd>{{data.activities}}</dd>
             	<dt>Data register</dt>
-            	<dd><a href="{{ data.organisation_uri }}">{{data.register_data}}</a></dd>
+            	<dd><a href="{{ data.register_data }}">{{data.register_data}}</a></dd>
             	<dt>Employer register</dt>
-            	<dd><a href="{{ data.organisation_uri }}">{{data.register_employer}}</a></dd>
+            	<dd><a href="{{ data.register_employer }}">{{data.register_employer}}</a></dd>
             	<dt>Construction register</dt>
-            	<dd><a href="{{ data.organisation_uri }}">{{data.register_construction}}</a></dd>
+            	<dd>{% if data.register_construction %}<a href="{{ data.register_construction }}">{{data.register_construction}}</a>{% else %}{{data.register_construction}}{% endif %}</dd>
             {% endif %}
             </dl>
             <p class="thing-footer">
-          This entry is held in the <a href="#">Data Protection register</a> which is 
+          This entry is held in the <a href="#">Data Protection register</a> which is
           maintained by the <a href="#">Data Protection Registry</a>
           </p>
-            
+
         </div>
       </div>
     </div>
